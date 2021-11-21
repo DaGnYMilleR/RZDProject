@@ -1,0 +1,5 @@
+class setupApplication {
+    fun main(){
+
+    }
+}
