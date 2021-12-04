@@ -1,7 +1,7 @@
 sourceCompatibility = 1.10
 
 buildscript {
-    ext.spring_boot_version = '2.0.3.RELEASE'
+    ext.spring_boot_version = '2.5.7'
 
     repositories {
         jcenter()
@@ -23,11 +23,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect"
     implementation "org.springframework.boot:spring-boot-starter"
     implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "org.springframework.boot:spring-boot-starter-amqp"
-    implementation "org.springframework.amqp:spring-rabbit:$spring_boot_version"
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
-
-    implementation "org.axonframework:axon-spring:$axonVersion"
-    implementation "org.axonframework:axon-spring-boot-autoconfigure:$axonVersion"
-    implementation "org.axonframework:axon-amqp:$axonVersion"
 }
