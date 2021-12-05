@@ -1,0 +1,3 @@
+class Tag(value: String) {
+
+}
