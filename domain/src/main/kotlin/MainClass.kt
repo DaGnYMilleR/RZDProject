@@ -19,7 +19,7 @@ class MainClass(private val citiesRepository: ICitiesRepository, private val rzd
 
         val filters = listOf(MoneyFilter(), PlaceFilter())
 
-        var filteredJourneys = filters.flatMap { it.filter(journeys) }
+        val filteredJourneys = filters.flatMap { it.filter(journeys, parameters) }
     }
 
     private fun getJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey {
