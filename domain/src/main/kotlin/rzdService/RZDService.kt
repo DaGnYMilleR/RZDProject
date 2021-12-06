@@ -1,12 +1,12 @@
 package rzdService
 
-import rzdService.parser.IRzdParser
-import rzdService.request.IRzdRequest
-import Ticket
+import rzdService.parser.IRzdResponseParser
+import rzdService.api.IRzdApi
+import models.Ticket
 
-class RZDService(private val rzdRequest: IRzdRequest, private val rzdParser: IRzdParser) : IRZDService {
-    override fun getTrip(rzdParams: RzdParams): Ticket {
-        val response = rzdRequest.request(rzdParams.cityFrom, rzdParams.cityTo, rzdParams.tripDuration)
-        return rzdParser.parse(response)
+class RZDService(private val rzdRequest: IRzdApi, private val rzdResponseParser: IRzdResponseParser) : IRZDService {
+    override fun getTicket(rzdParams: RzdParams): Ticket {
+        val response = rzdRequest.request(rzdParams.cityFrom, rzdParams.cityTo, rzdParams.journeyDuration)
+        return rzdResponseParser.parse(response)
     }
 }

@@ -1,8 +1,8 @@
 package hotelService.parser
 
-import Hotel
+import models.Hotel
 import hotelService.responce.IHotelResponse
 
-interface IHotelParser {
+interface IHotelResponseParser {
     fun parse(response: IHotelResponse): List<Hotel>
 }

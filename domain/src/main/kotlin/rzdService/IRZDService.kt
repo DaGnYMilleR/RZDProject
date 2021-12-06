@@ -1,7 +1,7 @@
 package rzdService
 
-import Ticket
+import models.Ticket
 
 interface IRZDService {
-    fun getTrip(rzdParams: RzdParams): Ticket
+    fun getTicket(rzdParams: RzdParams): Ticket
 }

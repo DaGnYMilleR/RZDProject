@@ -1,6 +1,6 @@
 package rzdService
 
-import City
-import DateSegment
+import models.City
+import models.DateSegment
 
-class RzdParams(val cityFrom: City, val cityTo: City, val tripDuration: DateSegment) {}
+class RzdParams(val cityFrom: City, val cityTo: City, val journeyDuration: DateSegment) {}

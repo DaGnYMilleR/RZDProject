@@ -1,4 +1,4 @@
 package hotelService.responce
 
-class HotelResponse() : IHotelResponse {
+class HotelResponse : IHotelResponse {
 }

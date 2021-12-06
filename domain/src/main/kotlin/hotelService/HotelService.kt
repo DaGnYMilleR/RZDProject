@@ -1,13 +1,12 @@
 package hotelService
 
-import Hotel
-import hotelService.parser.IHotelParser
-import hotelService.request.IHotelRequest
-import IParams
+import models.Hotel
+import hotelService.parser.IHotelResponseParser
+import hotelService.api.IHotelApi
 
-class HotelService(private val hotelRequest: IHotelRequest, private val hotelParser: IHotelParser) : IHotelService {
+class HotelService(private val hotelApi: IHotelApi, private val hotelResponseParser: IHotelResponseParser) : IHotelService {
     override fun getHotels(params: IHotelServiceParams): List<Hotel> {
-        val response = hotelRequest.request(params.city, params.tripDuration)
-        return hotelParser.parse(response)
+        val response = hotelApi.makeRequest(params.city, params.journeyDuration)
+        return hotelResponseParser.parse(response)
     }
 }

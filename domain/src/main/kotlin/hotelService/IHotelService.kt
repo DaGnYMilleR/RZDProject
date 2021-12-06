@@ -1,7 +1,6 @@
 package hotelService
 
-import Hotel
-import IParams
+import models.Hotel
 
 interface IHotelService {
     fun getHotels(params: IHotelServiceParams): List<Hotel>

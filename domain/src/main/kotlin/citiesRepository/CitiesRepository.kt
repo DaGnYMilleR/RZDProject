@@ -1,9 +1,9 @@
-package database
+package citiesRepository
 
-import City
-import Tag
+import models.City
+import models.Tag
 
-class Database : IDataBase {
+class CitiesRepository : ICitiesRepository {
     override fun getCitiesByTags(tags: List<Tag>): List<City> {
         TODO("Not yet implemented")
     }

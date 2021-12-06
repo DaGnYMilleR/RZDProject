@@ -1,25 +1,29 @@
-import database.Database
+import citiesRepository.ICitiesRepository
 import filters.MoneyFilter
 import filters.PlaceFilter
-import hotelService.HotelService
 import hotelService.HotelServiceParams
-import rzdService.RZDService
+import hotelService.IHotelService
+import models.City
+import models.DateSegment
+import models.Journey
+import models.TravellingTime
+import rzdService.IRZDService
 import rzdService.RzdParams
 
-class MainClass(private val dataBase: Database, private val rzdService: RZDService, private val hotelService: HotelService) {
+class MainClass(private val citiesRepository: ICitiesRepository, private val rzdService: IRZDService, private val hotelService: IHotelService) {
     fun mainMethod(params: IParams) {
-        val availableCities = dataBase.getCitiesByTags(params.tags)
+        val availableCities = citiesRepository.getCitiesByTags(params.tags)
 
         val journeys = availableCities
-            .map { city -> getJourney(params.city, city, params.tripDuration) }
+            .map { city -> getJourney(params.city, city, params.journeyDuration) }
 
         val filters = listOf(MoneyFilter(), PlaceFilter())
 
         var filteredJourneys = filters.flatMap { it.filter(journeys) }
     }
 
-    private fun getJourney(cityFrom: City, cityTo: City, tripDuration: DateSegment): Journey {
-        val ticket = rzdService.getTrip(RzdParams(cityFrom, cityTo, tripDuration))
+    private fun getJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey {
+        val ticket = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration))
         val date = getTimeOfStayInCity(ticket.travellingTime)
         val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date))
         return Journey(cityTo, ticket, hotels)

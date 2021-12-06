@@ -1,6 +1,6 @@
 package filters
 
-import Journey
+import models.Journey
 
 class PlaceFilter : IFilter {
     override fun filter(journeys: List<Journey>): List<Journey> {

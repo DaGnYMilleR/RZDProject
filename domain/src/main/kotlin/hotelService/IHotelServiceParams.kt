@@ -1,9 +1,9 @@
 package hotelService
 
-import City
-import DateSegment
+import models.City
+import models.DateSegment
 
 interface IHotelServiceParams {
     val city: City
-    val tripDuration: DateSegment
+    val journeyDuration: DateSegment
 }

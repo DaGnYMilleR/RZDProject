@@ -1,8 +1,8 @@
 package rzdService.parser
 
 import rzdService.response.IRzdResponse
-import Ticket
+import models.Ticket
 
-interface IRzdParser {
+interface IRzdResponseParser {
     fun parse(response: IRzdResponse): Ticket
 }
