@@ -11,11 +11,11 @@ import rzdService.IRZDService
 import rzdService.RzdParams
 
 class MainClass(private val citiesRepository: ICitiesRepository, private val rzdService: IRZDService, private val hotelService: IHotelService) {
-    fun mainMethod(params: IParams) {
-        val availableCities = citiesRepository.getCitiesByTags(params.tags)
+    fun mainMethod(parameters: IParameters) {
+        val availableCities = citiesRepository.getCitiesByTags(parameters.tags)
 
         val journeys = availableCities
-            .map { city -> getJourney(params.city, city, params.journeyDuration) }
+            .map { city -> getJourney(parameters.city, city, parameters.journeyDuration) }
 
         val filters = listOf(MoneyFilter(), PlaceFilter())
 
