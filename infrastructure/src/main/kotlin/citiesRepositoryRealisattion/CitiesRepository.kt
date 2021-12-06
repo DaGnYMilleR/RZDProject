@@ -1,5 +1,6 @@
-package citiesRepository
+package citiesRepositoryRealisattion
 
+import citiesRepository.ICitiesRepository
 import models.City
 import models.Tag
 
