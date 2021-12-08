@@ -13,8 +13,8 @@
                 Выберите город...
               </option>
               <option>Обоссурийск</option>
-              <option>Хуень</option>
               <option>Ебатеринбург</option>
+              <option>Хреньбург</option>
             </select>
           </div>
           <div>
