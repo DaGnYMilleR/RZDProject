@@ -1,5 +1,3 @@
 package models
 
-class Tag(value: String) {
-
-}
+data class Tag(val value: String)
