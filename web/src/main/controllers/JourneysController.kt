@@ -2,6 +2,11 @@ package main.controllers
 
 import hotelService.api.HotelApi
 import hotelService.api.HotelResponse2
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.StringFormat
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.Json.Default.decodeFromString
 import main.models.JourneyParametersRequestQuery
 import models.City
 import models.DateSegment
@@ -19,9 +24,15 @@ import java.time.LocalDate
 class JourneysController @Autowired constructor(val hotelApi: HotelApi) {
 
     @PostMapping("/journeys")
-    fun journeys(@RequestBody query: JourneyParametersRequestQuery) : HotelResponse2 {
+    fun journeys(@RequestBody query: JourneyParametersRequestQuery) : Array<HotelResponse2> {
 
         return hotelApi.makeRequest(City("Moscow", listOf(Tag("test")), listOf(1, 2, 3)), DateSegment(LocalDate.now(), LocalDate.now().plusWeeks(1)))
         //return query
     }
+
+
+
 }
+
+
+
