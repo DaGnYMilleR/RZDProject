@@ -2,7 +2,7 @@
   <div class="home">
     <div class="content">
       <div class="left">
-        <div class="header">Какой-то ссаный заголовок</div>
+        <JourneySuggestions :suggestions="suggestions" />
       </div>
       <div class="right">
         <JourneyFilters
@@ -16,11 +16,26 @@
 
 <script>
 import JourneyFilters from "../components/JourneyFilters";
+import JourneySuggestions from "../components/JourneySuggestions";
 export default {
   name: "Home",
-  components: { JourneyFilters },
+  components: { JourneySuggestions, JourneyFilters },
   data() {
     return {
+      suggestions: [
+        {
+          id: 1,
+          name: "Крутая поездочка",
+        },
+        {
+          id: 2,
+          name: "Курорт в Ишимчике",
+        },
+        {
+          id: 3,
+          name: "Солевые ванны на Уралмаше Екатеринбурга",
+        },
+      ],
       tags: [
         {
           id: 1,
@@ -72,11 +87,6 @@ export default {
 .left {
   background: rebeccapurple;
   flex-grow: 3;
-  .header {
-    background: white;
-    color: black;
-    padding: 0.3vmax;
-  }
 }
 
 .right {
