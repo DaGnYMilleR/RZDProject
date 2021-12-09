@@ -1,6 +1,5 @@
 dependencies {
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.0.1'
 }
-test {
-    TestFilterMoney()
-}
+

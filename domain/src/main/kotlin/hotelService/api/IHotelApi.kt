@@ -5,5 +5,5 @@ import models.DateSegment
 import hotelService.responce.IHotelResponse
 
 interface IHotelApi {
-    fun makeRequest(city: City, journeyDuration: DateSegment): IHotelResponse
+    fun makeRequest(destinationCity: City, journeyDuration: DateSegment): Array<HotelResponse2>
 }
