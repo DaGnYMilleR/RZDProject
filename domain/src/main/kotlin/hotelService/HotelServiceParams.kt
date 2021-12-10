@@ -3,5 +3,4 @@ package hotelService
 import models.City
 import models.DateSegment
 
-class HotelServiceParams(override val city: City, override val journeyDuration: DateSegment) : IHotelServiceParams {
-}
+data class HotelServiceParams(val city: City, val journeyDuration: DateSegment)
