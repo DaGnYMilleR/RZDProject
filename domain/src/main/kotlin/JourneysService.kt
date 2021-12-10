@@ -1,6 +1,5 @@
 import citiesRepository.ICitiesRepository
-import filters.MoneyFilter
-import filters.PlaceFilter
+import filters.ICompositeFilter
 import hotelService.HotelServiceParams
 import hotelService.IHotelService
 import models.City
@@ -10,16 +9,19 @@ import models.TravellingTime
 import rzdService.IRZDService
 import rzdService.RzdParams
 
-class JourneysService(private val citiesRepository: ICitiesRepository, private val rzdService: IRZDService, private val hotelService: IHotelService) {
+class JourneysService(
+    private val citiesRepository: ICitiesRepository,
+    private val rzdService: IRZDService,
+    private val hotelService: IHotelService,
+    private val compositeFilter: ICompositeFilter
+) {
     fun getJourneys(parameters: IParameters): List<Journey> {
         val availableCities = citiesRepository.getCitiesByTags(parameters.tags)
 
         val journeys = availableCities
             .map { city -> createJourney(parameters.city, city, parameters.journeyDuration) }
 
-        val filters = listOf(MoneyFilter(), PlaceFilter())
-
-        return filters.flatMap { it.filter(journeys, parameters) }
+        return compositeFilter.filter(journeys, parameters)
     }
 
     private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey {
