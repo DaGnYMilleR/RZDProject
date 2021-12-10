@@ -1,6 +1,7 @@
 package main
 
 import hotelService.api.HotelApi
+import hotelService.api.IHotelApi
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.Bean
 @SpringBootApplication
 class RZDApplication{
     @Bean
-    fun hotelService(): HotelApi {
+    fun hotelService(): IHotelApi {
         return HotelApi()
     }
 }

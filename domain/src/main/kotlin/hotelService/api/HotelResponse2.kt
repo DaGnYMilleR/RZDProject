@@ -13,14 +13,3 @@ data class HotelResponse2(
     val hotelId: Int,
     val priceFrom: Double)
 
-@Serializable
-data class Location(
-    val country: String,
-    val geo: GeoLocation,
-    val state: String?,
-    val name: String)
-
-@Serializable
-data class GeoLocation(
-    val lon: Float,
-    val lat: Float)
