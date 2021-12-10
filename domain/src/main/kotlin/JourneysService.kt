@@ -10,19 +10,19 @@ import models.TravellingTime
 import rzdService.IRZDService
 import rzdService.RzdParams
 
-class MainClass(private val citiesRepository: ICitiesRepository, private val rzdService: IRZDService, private val hotelService: IHotelService) {
-    fun mainMethod(parameters: IParameters) {
+class JourneysService(private val citiesRepository: ICitiesRepository, private val rzdService: IRZDService, private val hotelService: IHotelService) {
+    fun getJourneys(parameters: IParameters): List<Journey> {
         val availableCities = citiesRepository.getCitiesByTags(parameters.tags)
 
         val journeys = availableCities
-            .map { city -> getJourney(parameters.city, city, parameters.journeyDuration) }
+            .map { city -> createJourney(parameters.city, city, parameters.journeyDuration) }
 
         val filters = listOf(MoneyFilter(), PlaceFilter())
 
-        val filteredJourneys = filters.flatMap { it.filter(journeys, parameters) }
+        return filters.flatMap { it.filter(journeys, parameters) }
     }
 
-    private fun getJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey {
+    private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey {
         val ticket = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration))
         val date = getTimeOfStayInCity(ticket.travellingTime)
         val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date))
