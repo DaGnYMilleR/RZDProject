@@ -3,7 +3,7 @@ package hotelService.api
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HotelResponse2(
+data class HotelResponse(
     val location: Location,
     val priceAvg: Double,
     val pricePercentile: HashMap<String, Double>,

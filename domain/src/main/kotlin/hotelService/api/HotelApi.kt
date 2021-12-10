@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component
 
 @Component
 class HotelApi : IHotelApi {
-    private val client = OkHttpClient()
+    private val apiUrl = "http://engine.hotellook.com/api/v2/cache.json?location=%s" +
+                    "&currency=rub&checkIn=%s&checkOut=%s&limit=20"
 
-    override fun makeRequest(destinationCity: City, journeyDuration: DateSegment): Array<HotelResponse2> {
-        val url = "http://engine.hotellook.com/api/v2/cache.json?location=${destinationCity.name}" +
-                "&currency=rub&checkIn=${journeyDuration.start}&checkOut=${journeyDuration.end}&limit=20"
+    override fun makeRequest(destinationCity: City, journeyDuration: DateSegment): Array<HotelResponse> {
+        val url = java.lang.String.format(apiUrl, destinationCity.name, journeyDuration.start, journeyDuration.end)
 
         return Json.decodeFromString(call(url).body!!.string())
     }
