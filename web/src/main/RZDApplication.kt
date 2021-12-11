@@ -20,13 +20,13 @@ class RZDApplication{
     }
 
     @Bean
-    fun hotelAPi(): IHotelApi {
+    fun hotelApi(): IHotelApi {
         return HotelApi(httpService())
     }
 
     @Bean
     fun hotelService(): IHotelService{
-        return HotelService(hotelAPi(), hotelImageService())
+        return HotelService(hotelApi(), hotelImageService())
     }
 
     @Bean

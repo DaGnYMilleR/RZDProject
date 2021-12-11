@@ -13,7 +13,11 @@ class HttpService{
     }
 
     fun call(url: String) : Response {
-        val request = Request.Builder().get().url(url).build()
+        val request = Request
+                .Builder()
+                .get()
+                .url(url)
+                .build()
         return OkHttpClient().newCall(request).execute()
     }
 }

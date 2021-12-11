@@ -13,8 +13,7 @@ class HotelApi(val httpService: HttpService) : IHotelApi {
 
     override fun makeRequest(destinationCity: City, journeyDuration: DateSegment): Array<HotelResponse> {
         return httpService.getResponse(
-            java.lang.String.format(apiUrl, destinationCity.name, journeyDuration.start, journeyDuration.end));
+            java.lang.String.format(apiUrl, destinationCity.name, journeyDuration.start, journeyDuration.end))
     }
 }
-
 

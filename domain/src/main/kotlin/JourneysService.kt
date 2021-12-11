@@ -6,12 +6,12 @@ import models.City
 import models.DateSegment
 import models.Journey
 import models.TravellingTime
-import rzdService.IRZDService
+import rzdService.IRzdService
 import rzdService.RzdParams
 
 class JourneysService(
     private val citiesRepository: ICitiesRepository,
-    private val rzdService: IRZDService,
+    private val rzdService: IRzdService,
     private val hotelService: IHotelService,
     private val compositeFilter: ICompositeFilter
 ) {
