@@ -21,6 +21,7 @@
 <script>
 import JourneyFilters from "../components/JourneyFilters";
 import JourneySuggestions from "../components/JourneySuggestions";
+import {HotelResponse} from "../models/JourneyParametersRequest";
 
 export default {
   name: "Home",
@@ -28,18 +29,38 @@ export default {
   data() {
     return {
       suggestions: [
-        {
-          id: 1,
-          name: "Крутая поездочка",
-        },
-        {
-          id: 2,
-          name: "Курорт в Ишимчике",
-        },
-        {
-          id: 3,
-          name: "Солевые ванны на Уралмаше Екатеринбурга",
-        },
+        HotelResponse.parse({
+          address: {lon: 37.617508, lat: 55.75204},
+          id: 333578,
+          imageUrl: "https://photo.hotellook.com/image_v2/limit/8678014703/800/520.auto",
+          name: "Moscow Marriott Grand Hotel",
+          price: 65345,
+          rating: 5,
+        }),
+        HotelResponse.parse({
+          address: {lon: 37.617508, lat: 55.75204},
+          id: 333578,
+          imageUrl: "https://photo.hotellook.com/image_v2/limit/8678014703/800/520.auto",
+          name: "Moscow Marriott Grand Hotel",
+          price: 65345,
+          rating: 5,
+        }),
+        HotelResponse.parse({
+          address: {lon: 37.617508, lat: 55.75204},
+          id: 333578,
+          imageUrl: "https://photo.hotellook.com/image_v2/limit/8678014703/800/520.auto",
+          name: "Moscow Marriott Grand Hotel",
+          price: 65345,
+          rating: 5,
+        }),
+        HotelResponse.parse({
+          address: {lon: 37.617508, lat: 55.75204},
+          id: 333578,
+          imageUrl: "https://photo.hotellook.com/image_v2/limit/8678014703/800/520.auto",
+          name: "Moscow Marriott Grand Hotel",
+          price: 65345,
+          rating: 5,
+        }),
       ],
       tags: [
         {
@@ -88,8 +109,23 @@ export default {
     };
   },
   methods: {
-    requestApplyFilters(requestDto) {
-      console.log(requestDto.toJson());
+    async requestApplyFilters(requestDto) {
+      try {
+        const response = await fetch('http://localhost:8080/api/journeys/',
+            {
+              method: 'POST',
+              body:requestDto.toJson(),
+              headers: {
+                'content-type': 'application/json'
+              }});
+        if (response.status === 200) {
+          this.suggestions = JSON.parse(await response.text()).map(HotelResponse.parse);
+        } else {
+          console.log(response.json());
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
     },
   },
 };
@@ -125,5 +161,6 @@ export default {
   background: cornflowerblue;
   flex-grow: 1;
   width: 9vmax;
+  height: fit-content;
 }
 </style>
