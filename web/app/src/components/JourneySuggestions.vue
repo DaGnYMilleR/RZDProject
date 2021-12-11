@@ -1,23 +1,28 @@
 <template>
   <div class="wrapper">
     <v-card class="fill-height">
-      <v-card v-for="suggestion in suggestions" :key="suggestion.id" class="suggestion">
-        <v-container fluid>
-          <v-row no-gutters>
-            <v-col cols="4" align-self="center" align="center" class="pa-6">
-              <img :src="suggestion.imageUrl"/>
-              <v-rating readonly :length="maxRate" :value="suggestion.rating"></v-rating>
-            </v-col>
-            <v-col style="position: relative">
-                  <v-card-title>{{ suggestion.name }}</v-card-title>
-                  <v-card-text>
-                    Цена: {{ formatMoney(suggestion.price) }}
-                  </v-card-text>
+      <div v-if="suggestions.length > 0">
+        <v-card v-for="suggestion in suggestions" :key="suggestion.id" class="suggestion">
+          <v-container fluid>
+            <v-row no-gutters>
+              <v-col cols="4" align-self="center" align="center" class="pa-6">
+                <img :src="suggestion.imageUrl" alt=""/>
+                <v-rating readonly :length="maxRate" :value="suggestion.rating"></v-rating>
+              </v-col>
+              <v-col style="position: relative">
+                <v-card-title>{{ suggestion.name }}</v-card-title>
+                <v-card-text>
+                  Цена: {{ formatMoney(suggestion.price) }}
+                </v-card-text>
                 <v-btn @click="select(suggestion)" min-width="100%" class="button-select">Хочу!</v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
+      </div>
+      <div v-else class="justify-center flex">
+        <v-card-title>Предложения не найдены. Попробуйте изменить запрос.</v-card-title>
+      </div>
     </v-card>
   </div>
 </template>
