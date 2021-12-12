@@ -5,6 +5,6 @@ import models.Journey
 import org.springframework.stereotype.Component
 
 @Component
-interface IFilter {
+interface ICompositeFilter {
     fun filter(journeys: List<Journey>, parameters: IParameters): List<Journey>
 }
