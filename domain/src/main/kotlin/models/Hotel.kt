@@ -8,4 +8,5 @@ data class Hotel(
     val address: GeoLocation,
     val price: Double,
     val rating: Int,
-    val imageUrl: String)
+    val imageUrl: String
+)

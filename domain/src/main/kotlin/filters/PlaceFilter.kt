@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 class PlaceFilter : IFilter {
     override fun filter(journeys: List<Journey>, parameters: IParameters): List<Journey> {
         val tags = parameters.tags.toSet()
-        return journeys.sortedBy {
-            journey -> tags.intersect(journey.city.tags.toSet()).count()
+        return journeys.sortedBy { journey ->
+            tags.intersect(journey.city.tags.toSet()).count()
         }.reversed()
     }
 }

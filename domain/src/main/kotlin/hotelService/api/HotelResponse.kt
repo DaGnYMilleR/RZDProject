@@ -11,5 +11,6 @@ data class HotelResponse(
     val stars: Int,
     val locationId: Int,
     val hotelId: Int,
-    val priceFrom: Double)
+    val priceFrom: Double
+)
 
