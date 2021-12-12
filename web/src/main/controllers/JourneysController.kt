@@ -1,29 +1,28 @@
 package main.controllers
 
-import hotelService.HotelServiceParams
-import hotelService.IHotelService
+import JourneysService
+import Parameters
 import main.models.JourneyParametersRequestQuery
-import models.City
-import models.DateSegment
-import models.Hotel
-import models.Tag
+import models.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDate
 
 
 @RestController
 @RequestMapping("/api")
-class JourneysController @Autowired constructor(val hotelService: IHotelService) {
+class JourneysController @Autowired constructor(val journeysService: JourneysService) {
 
     @PostMapping("/journeys")
     @CrossOrigin(origins = ["*"])
-    fun journeys(@RequestBody query: JourneyParametersRequestQuery) : List<Hotel> {
-        return hotelService.getHotels(HotelServiceParams(
-            City("Moscow", listOf(Tag("test")), listOf(1, 2, 3)),
-            DateSegment(LocalDate.now(), LocalDate.now().plusWeeks(1))))
+    fun journeys(@RequestBody query: JourneyParametersRequestQuery) : List<Journey> {
+        val tags = query.tags.map { Tag(it) }
+        return journeysService.getJourneys(
+            Parameters(
+                City(query.cityName, tags, listOf()),
+                query.budget,
+                tags,
+                DateSegment(query.dateFrom, query.dateTo)))
     }
 }
-
 
 
