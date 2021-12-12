@@ -6,6 +6,10 @@ import models.City
 import models.Tag
 
 class CitiesRepository(private val cityDao: CityDao) : ICitiesRepository {
+    override fun getCitiesByTags(tags: List<Tag>, count: Int): List<City> {
+        return cityDao.getCitiesByTags(tags, count);
+    }
+
     override fun getCitiesByTags(tags: List<Tag>): List<City> {
         return cityDao.getCitiesByTags(tags);
     }

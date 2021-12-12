@@ -15,10 +15,16 @@ class CityDao() {
         val jsonString = inputStream.bufferedReader().use { it.readText() }
         jsonObj = Json.parseToJsonElement(jsonString).jsonObject
     }
-    fun getCitiesByTags(tags: List<Tag>): List<City>{
+
+    fun getCitiesByTags(tags: List<Tag>, count: Int): List<City> {
+        return getCitiesByTags(tags)
+                .take(count)
+    }
+
+    fun getCitiesByTags(tags: List<Tag>): List<City> {
         return getAllCities()
-                .sortedBy { city -> city.tags.toSet().intersect(tags.toSet()).count()}
-                .reversed()
+            .sortedBy { city -> city.tags.toSet().intersect(tags.toSet()).count() }
+            .reversed()
     }
 
     fun getAllCities(): List<City>{
