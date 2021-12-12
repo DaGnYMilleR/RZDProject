@@ -1,3 +1,3 @@
 package rzdService.response
 
-interface IRzdResponse {}
+interface IRzdResponse

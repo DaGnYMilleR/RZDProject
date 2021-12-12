@@ -7,4 +7,5 @@ data class Location(
     val country: String,
     val geo: GeoLocation,
     val state: String?,
-    val name: String)
+    val name: String
+)

@@ -1,8 +1,8 @@
 package hotelService
 
-import models.Hotel
 import hotelService.api.IHotelApi
 import hotelService.imageService.IHotelImageService
+import models.Hotel
 
 class HotelService(private val hotelApi: IHotelApi, private val imageService: IHotelImageService) : IHotelService {
     override fun getHotels(params: HotelServiceParams): List<Hotel> {

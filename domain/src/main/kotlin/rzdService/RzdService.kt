@@ -1,8 +1,8 @@
 package rzdService
 
-import rzdService.parser.IRzdResponseParser
-import rzdService.api.IRzdApi
 import models.Ticket
+import rzdService.api.IRzdApi
+import rzdService.parser.IRzdResponseParser
 
 class RzdService(private val rzdRequest: IRzdApi, private val rzdResponseParser: IRzdResponseParser) : IRzdService {
     override fun getTicket(rzdParams: RzdParams): Ticket {
