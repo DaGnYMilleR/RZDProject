@@ -16,7 +16,9 @@ class JourneysService(
     private val compositeFilter: ICompositeFilter
 ) {
     fun getJourneys(parameters: IParameters): List<Journey> {
-        val availableCities = citiesRepository.getCitiesByTags(parameters.tags, 5)
+        val availableCities = citiesRepository
+            .getCitiesByTags(parameters.tags, 5)
+            .minusElement(parameters.city)
 
         val journeys = availableCities
             .map { city -> createJourney(parameters.city, city, parameters.journeyDuration) }
