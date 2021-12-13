@@ -4,13 +4,13 @@
       <div class="header">Выбор путешествия</div>
       <div class="content">
         <div class="left">
-          <JourneySuggestions :suggestions="suggestions"/>
+          <JourneySuggestions :suggestions="suggestions" />
         </div>
         <div class="right">
           <JourneyFilters
-              :tags-collection="tags"
-              :cities="cities"
-              @onrequest="requestApplyFilters"
+            :tags-collection="tags"
+            :cities="cities"
+            @onrequest="requestApplyFilters"
           />
         </div>
       </div>
@@ -21,10 +21,10 @@
 <script>
 import JourneyFilters from "../components/JourneyFilters";
 import JourneySuggestions from "../components/JourneySuggestions";
-import {HotelResponse} from "../models/HotelResponse";
+import { Hotel } from "../models/entity/Hotel";
 
 export default {
-  name: "Home",
+  name: "SearchJourneys",
   components: { JourneySuggestions, JourneyFilters },
   data() {
     return {
@@ -67,35 +67,37 @@ export default {
       cities: [
         {
           id: 1,
-          name: "Москва"
+          name: "Москва",
         },
         {
           id: 2,
-          name: "Екатеринбург"
+          name: "Екатеринбург",
         },
         {
           id: 3,
-          name: "Кропоткин"
+          name: "Кропоткин",
         },
         {
           id: 4,
-          name: "Ишим"
+          name: "Ишим",
         },
-      ]
+      ],
     };
   },
   methods: {
     async requestApplyFilters(requestDto) {
       try {
-        const response = await fetch('http://localhost:8080/api/journeys/',
-            {
-              method: 'POST',
-              body:requestDto.toJson(),
-              headers: {
-                'content-type': 'application/json'
-              }});
+        const response = await fetch("http://localhost:8080/api/journeys/", {
+          method: "POST",
+          body: requestDto.toJson(),
+          headers: {
+            "content-type": "application/json",
+          },
+        });
         if (response.status === 200) {
-          this.suggestions = JSON.parse(await response.text()).map(HotelResponse.parse);
+          this.suggestions = JSON.parse(await response.text()).map(
+            Hotel.fromObject
+          );
         } else {
           console.log(response.json());
         }
