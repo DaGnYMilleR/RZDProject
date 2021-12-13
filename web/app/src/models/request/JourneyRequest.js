@@ -1,4 +1,4 @@
-export class JourneyParametersRequest {
+export class JourneyRequest {
   constructor() {
     this.cityName = null;
     this.budget = 0;
@@ -11,4 +11,3 @@ export class JourneyParametersRequest {
     return JSON.stringify(this);
   }
 }
-
