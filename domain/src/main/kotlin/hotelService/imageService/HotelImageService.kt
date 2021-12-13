@@ -13,3 +13,7 @@ class HotelImageService(private val httpService: HttpService) : IHotelImageServi
         return "https://photo.hotellook.com/image_v2/limit/${imageIds?.first()}/800/520.auto"
     }
 }
+
+class HotelImageMock(private val httpService: HttpService) : IHotelImageService {
+    override fun getImage(hotel: HotelResponse): String = ""
+}

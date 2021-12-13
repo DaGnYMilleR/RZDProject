@@ -3,9 +3,8 @@ package hotelService.api
 import HttpService
 import models.City
 import models.DateSegment
-import org.springframework.stereotype.Component
 
-@Component
+
 class HotelApi(val httpService: HttpService) : IHotelApi {
     private val hotelsCount = 5
     private val apiUrl = "http://engine.hotellook.com/api/v2/cache.json?location=%s" +
@@ -17,4 +16,3 @@ class HotelApi(val httpService: HttpService) : IHotelApi {
         )
     }
 }
-

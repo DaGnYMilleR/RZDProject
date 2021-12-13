@@ -34,7 +34,7 @@ class JourneysService(
     }
 
     private fun getTimeOfStayInCity(travellingTime: TravellingTime): DateSegment {
-        return DateSegment(travellingTime.fromPlace.end, travellingTime.toPlace.start)
+        return DateSegment(travellingTime.toPlace.end, travellingTime.fromPlace.start)
     }
 }
 
