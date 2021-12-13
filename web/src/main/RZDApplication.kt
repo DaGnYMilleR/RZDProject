@@ -11,7 +11,6 @@ import hotelService.IHotelService
 import hotelService.api.HotelApi
 import hotelService.api.IHotelApi
 import hotelService.imageService.IHotelImageService
-import hotelService.imageService.HotelImageMock
 import hotelService.imageService.HotelImageService
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

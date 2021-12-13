@@ -1,9 +1,9 @@
-package models
+package models.hotel
 
 import hotelService.api.GeoLocation
 
 data class Hotel(
-    val id: Int,
+    val id: Long,
     val name: String,
     val address: GeoLocation,
     val price: Double,
@@ -11,4 +11,3 @@ data class Hotel(
     val images: HotelImages?
 )
 
-data class HotelImages(val mainImage: String, val extraImages: List<String>)

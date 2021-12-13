@@ -1,23 +1,32 @@
 package hotelService.imageService
 
 import HttpService
-import hotelService.api.HotelResponse
-import models.HotelImages
+import models.hotel.HotelImages
 
 class HotelImageService(private val httpService: HttpService) : IHotelImageService {
-    override fun getImages(hotel: HotelResponse): HotelImages? {
-        val url = "https://yasen.hotellook.com/photos/hotel_photos?id=${hotel.hotelId}"
-        val response = httpService.getResponse<HashMap<String, List<Long>>>(url)
+    override fun getImages(hotelId: Long): HotelImages? {
+        val url = "https://yasen.hotellook.com/photos/hotel_photos?id=${hotelId}"
+        val response = httpService.getResponse<HashMap<Long, List<Long>>>(url)
 
-        val imageIds = response[hotel.hotelId.toString()] ?: return null
+        val imageIds = response[hotelId] ?: return null
 
         if(imageIds.count() == 1)
-            return HotelImages(imageIds.first().toString(), listOf())
+            return HotelImages(imageIds.first(), listOf())
 
-        return HotelImages(imageIds.first().toString(), imageIds.drop(1).map { it.toString() })
+        return HotelImages(imageIds.first(), imageIds.drop(1))
+    }
+
+    override fun getImages(hotelIds: List<Long>): Map<Long, HotelImages> {
+        val baseUrl = "https://yasen.hotellook.com/photos/hotel_photos?id=${hotelIds.joinToString { it.toString() }}"
+
+        return httpService.getResponse<HashMap<Long, List<Long>>>(baseUrl)
+            .mapValues { createHotelImages(it.value) }
+    }
+
+    private fun createHotelImages(ids: List<Long>) : HotelImages {
+        if(ids.count() == 1)
+            return HotelImages(ids.first(), listOf())
+        return HotelImages(ids.first(), ids.drop(1))
     }
 }
 
-class HotelImageMock(private val httpService: HttpService) : IHotelImageService {
-    override fun getImages(hotel: HotelResponse): HotelImages? = null
-}
