@@ -2,16 +2,14 @@
   <div class="wrapper">
     <v-card class="fill-height">
       <div v-if="suggestions.length > 0">
-        <v-card
-          v-for="suggestion in suggestions"
-          :key="suggestion.id"
-          class="suggestion"
-        >
-          <JourneySuggestion />
-        </v-card>
+        <JourneySuggestion
+          v-for="(journey, id) in suggestions"
+          :key="id"
+          :journey="journey"
+        />
       </div>
       <div v-else class="justify-center flex">
-        <v-card-title>
+        <v-card-title class="justify-center pa-8">
           Предложения не найдены. Попробуйте изменить запрос.
         </v-card-title>
       </div>
@@ -62,17 +60,6 @@ export default {
   padding: 0.3vmax;
   display: flex;
   justify-content: center;
-}
-
-.suggestion {
-  padding: 1vh;
-  background: wheat;
-  margin: 2% 3% 3% 2%;
-  height: 30vh;
-
-  img {
-    height: 20vh;
-  }
 }
 
 .button-select {

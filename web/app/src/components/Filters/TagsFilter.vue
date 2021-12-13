@@ -10,28 +10,23 @@
       class="ma-3"
     >
       <template #selection="data">
-        <v-chip
-          :key="JSON.stringify(data.item)"
-          v-bind="data.attrs"
-          :input-value="data.selected"
+        <TagComponent
+          :attrs="data.attrs"
           :disabled="data.disabled"
-          @click.stop.prevent="remove(data.item)"
-        >
-          <v-avatar
-            class="accent white--text"
-            left
-            v-text="data.item.slice(0, 1).toUpperCase()"
-          ></v-avatar>
-          {{ data.item }}
-        </v-chip>
+          :selected="data.selected"
+          :value="data.item"
+          @click="remove"
+        />
       </template>
     </v-combobox>
   </v-card>
 </template>
 
 <script>
+import TagComponent from "../TagComponent";
 export default {
   name: "TagsFilter",
+  components: { TagComponent },
   model: {
     prop: "tags",
     event: "onchange",

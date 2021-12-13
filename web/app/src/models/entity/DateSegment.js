@@ -1,7 +1,4 @@
 export class DateSegment {
-  start;
-  end;
-
   /**
    * @param {String} start
    * @param {String} end
@@ -15,3 +12,5 @@ export class DateSegment {
 DateSegment.fromObject = (obj) => {
   return new DateSegment(obj.start, obj.end);
 };
+
+DateSegment.Null = new DateSegment("", "");

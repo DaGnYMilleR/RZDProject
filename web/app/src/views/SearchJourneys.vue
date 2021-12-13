@@ -21,14 +21,252 @@
 <script>
 import JourneyFilters from "../components/JourneyFilters";
 import JourneySuggestions from "../components/JourneySuggestions";
-import { Hotel } from "../models/entity/Hotel";
+import { JourneyResponse } from "../models/response/JourneyResponse";
 
 export default {
   name: "SearchJourneys",
   components: { JourneySuggestions, JourneyFilters },
   data() {
     return {
-      suggestions: [],
+      suggestions: [
+        JourneyResponse.fromObject({
+          city: {
+            name: "Пятигорск",
+            tags: [
+              { value: "минеральные воды" },
+              { value: "кавказ" },
+              { value: "красота" },
+              { value: "горы" },
+              { value: "живопись" },
+              { value: "есентуки" },
+            ],
+            stationsIds: [2064060],
+          },
+          ticket: {
+            cityFrom: {
+              name: "Yekaterinburg",
+              tags: [],
+              stationsIds: [],
+            },
+            cityTo: {
+              name: "Sochi",
+              tags: [],
+              stationsIds: [],
+            },
+            cost: 1000,
+            travellingTime: {
+              toPlace: {
+                start: "2021-12-12",
+                end: "2021-12-13",
+              },
+              fromPlace: {
+                start: "2021-12-30",
+                end: "2021-12-31",
+              },
+            },
+          },
+          hotels: [
+            {
+              id: 1406953704,
+              name: "Guest House Pragma",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 52274.15,
+              rating: 5,
+              imageUrl: "",
+            },
+            {
+              id: 1224984043,
+              name: "Hotel Kristella",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 67150,
+              rating: 4,
+              imageUrl: "",
+            },
+            {
+              id: 611050,
+              name: "Bristol Spa-Hotel",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 436644.99,
+              rating: 4,
+              imageUrl: "",
+            },
+            {
+              id: 543356,
+              name: "Zateryanny Ray u Mashuka",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 42500,
+              rating: 3,
+              imageUrl: "",
+            },
+            {
+              id: 9192717,
+              name: "Гостевой дом Респект",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 37400,
+              rating: 2,
+              imageUrl: "",
+            },
+          ],
+        }),
+        JourneyResponse.fromObject({
+          city: {
+            name: "Пятигорск",
+            tags: [
+              { value: "минеральные воды" },
+              { value: "кавказ" },
+              { value: "красота" },
+              { value: "горы" },
+              { value: "живопись" },
+              { value: "есентуки" },
+            ],
+            stationsIds: [2064060],
+          },
+          ticket: {
+            cityFrom: {
+              name: "Yekaterinburg",
+              tags: [],
+              stationsIds: [],
+            },
+            cityTo: {
+              name: "Sochi",
+              tags: [],
+              stationsIds: [],
+            },
+            cost: 1000,
+            travellingTime: {
+              toPlace: {
+                start: "2021-12-12",
+                end: "2021-12-13",
+              },
+              fromPlace: {
+                start: "2021-12-30",
+                end: "2021-12-31",
+              },
+            },
+          },
+          hotels: [
+            {
+              id: 1406953704,
+              name: "Guest House Pragma",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 52274.15,
+              rating: 5,
+              imageUrl: "",
+            },
+            {
+              id: 1224984043,
+              name: "Hotel Kristella",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 67150,
+              rating: 4,
+              imageUrl: "",
+            },
+            {
+              id: 611050,
+              name: "Bristol Spa-Hotel",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 436644.99,
+              rating: 4,
+              imageUrl: "",
+            },
+            {
+              id: 543356,
+              name: "Zateryanny Ray u Mashuka",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 42500,
+              rating: 3,
+              imageUrl: "",
+            },
+            {
+              id: 9192717,
+              name: "Гостевой дом Респект",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 37400,
+              rating: 2,
+              imageUrl: "",
+            },
+          ],
+        }),
+        JourneyResponse.fromObject({
+          city: {
+            name: "Пятигорск",
+            tags: [
+              { value: "минеральные воды" },
+              { value: "кавказ" },
+              { value: "красота" },
+              { value: "горы" },
+              { value: "живопись" },
+              { value: "есентуки" },
+            ],
+            stationsIds: [2064060],
+          },
+          ticket: {
+            cityFrom: {
+              name: "Yekaterinburg",
+              tags: [],
+              stationsIds: [],
+            },
+            cityTo: {
+              name: "Sochi",
+              tags: [],
+              stationsIds: [],
+            },
+            cost: 1000,
+            travellingTime: {
+              toPlace: {
+                start: "2021-12-12",
+                end: "2021-12-13",
+              },
+              fromPlace: {
+                start: "2021-12-30",
+                end: "2021-12-31",
+              },
+            },
+          },
+          hotels: [
+            {
+              id: 1406953704,
+              name: "Guest House Pragma",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 52274.15,
+              rating: 5,
+              imageUrl: "",
+            },
+            {
+              id: 1224984043,
+              name: "Hotel Kristella",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 67150,
+              rating: 4,
+              imageUrl: "",
+            },
+            {
+              id: 611050,
+              name: "Bristol Spa-Hotel",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 436644.99,
+              rating: 4,
+              imageUrl: "",
+            },
+            {
+              id: 543356,
+              name: "Zateryanny Ray u Mashuka",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 42500,
+              rating: 3,
+              imageUrl: "",
+            },
+            {
+              id: 9192717,
+              name: "Гостевой дом Респект",
+              address: { lon: 43.0594, lat: 44.0486 },
+              price: 37400,
+              rating: 2,
+              imageUrl: "",
+            },
+          ],
+        }),
+      ],
       tags: [
         {
           id: 1,
@@ -87,8 +325,9 @@ export default {
         });
         if (response.status === 200) {
           this.suggestions = JSON.parse(await response.text()).map(
-            Hotel.fromObject
+            JourneyResponse.fromObject
           );
+          console.log(this.suggestions);
         } else {
           console.log(response.json());
         }

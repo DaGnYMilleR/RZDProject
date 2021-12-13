@@ -2,11 +2,6 @@ import { City } from "./City";
 import { TravellingTime } from "./TravellingTime";
 
 export class Ticket {
-  cityFrom;
-  cityTo;
-  cost;
-  travellingTime;
-
   /**
    * @param {City} cityFrom
    * @param {City} cityTo
@@ -29,3 +24,5 @@ Ticket.fromObject = (obj) => {
     TravellingTime.fromObject(obj.travellingTime)
   );
 };
+
+Ticket.Null = new Ticket(City.Null, City.Null, 0, TravellingTime.Null);

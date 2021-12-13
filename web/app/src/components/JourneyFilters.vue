@@ -19,8 +19,9 @@
         min-width="96%"
         color="blue"
         @click="applyFilters()"
-        >Принять</v-btn
       >
+        Принять
+      </v-btn>
     </v-card>
   </div>
 </template>

@@ -3,9 +3,6 @@ import { Hotel } from "../entity/Hotel";
 import { Ticket } from "../entity/Ticket";
 
 export class JourneyResponse {
-  city;
-  ticket;
-  hotels;
   /**
    * @param {City} city
    * @param {Ticket} ticket
@@ -18,10 +15,12 @@ export class JourneyResponse {
   }
 }
 
-JourneyResponse.parse = (obj) => {
+JourneyResponse.fromObject = (obj) => {
   return new JourneyResponse(
     City.fromObject(obj.city),
     Ticket.fromObject(obj.ticket),
     obj.hotels.map(Hotel.fromObject)
   );
 };
+
+JourneyResponse.Null = new JourneyResponse(City.Null, Ticket.Null, []);

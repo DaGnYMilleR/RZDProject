@@ -1,9 +1,6 @@
 import { DateSegment } from "./DateSegment";
 
 export class TravellingTime {
-  toPlace;
-  fromPlace;
-
   /**
    * @param {DateSegment} toPlace
    * @param {DateSegment} fromPlace
@@ -20,3 +17,5 @@ TravellingTime.fromObject = (obj) => {
     DateSegment.fromObject(obj.fromPlace)
   );
 };
+
+TravellingTime.Null = new TravellingTime(DateSegment.Null, DateSegment.Null);

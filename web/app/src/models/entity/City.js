@@ -1,10 +1,6 @@
 import { Tag } from "./Tag";
 
 export class City {
-  name;
-  tags;
-  stationsIds;
-
   /**
    * @param {String} name
    * @param {Tag[]} tags
@@ -18,5 +14,7 @@ export class City {
 }
 
 City.fromObject = (obj) => {
-  return new City(obj.name, obj.tags.map(Tag.fromObject), obj.stationsIds);
+  return new City(obj.name, obj.tags.map(Tag.fromObject), obj.stationsId);
 };
+
+City.Null = new City("", [], []);
