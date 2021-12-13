@@ -2,9 +2,10 @@ package rzdService.api
 
 import models.City
 import models.DateSegment
-import rzdService.response.IRzdResponse
+import models.Ticket
+
 
 interface IRzdApi {
-    fun request(cityFrom: City, cityTo: City, journeyDuration: DateSegment): IRzdResponse
+    fun request(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Ticket
 }
 
