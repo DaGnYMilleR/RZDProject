@@ -43,7 +43,7 @@ class CityDao {
     private fun fromJsonObjectToTagList(jsonArray: JsonArray): List<Tag> {
         val tags = arrayListOf<Tag>()
         (0 until jsonArray.size).forEach { i ->
-            tags.add(Tag(jsonArray[i].toString()))
+            tags.add(Tag(jsonArray[i].toString().replace("\"", "")))
         }
         return tags
     }
