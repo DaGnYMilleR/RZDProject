@@ -5,11 +5,11 @@ import okhttp3.Request
 import okhttp3.Response
 
 class HttpService {
-
+    val json = Json { ignoreUnknownKeys = true }
     inline fun <reified T> getResponse(url: String): T {
         val response = call(url)
 
-        return Json.decodeFromString(response.body!!.string())
+        return json.decodeFromString(response.body!!.string())
     }
 
     fun call(url: String): Response {
