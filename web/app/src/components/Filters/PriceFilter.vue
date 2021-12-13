@@ -1,13 +1,13 @@
 <template>
-  <v-card>
+  <v-card class="ma-2">
     <v-card-title>Бюджет</v-card-title>
     <vuetify-money
-        v-model="priceInput"
-        valueWhenIsEmpty="0"
-        :clearable="true"
-        :options="options"
-        color="blue"
-        class="input"
+      v-model="priceInput"
+      value-when-is-empty="0"
+      :clearable="true"
+      :options="options"
+      color="blue"
+      class="input"
     />
   </v-card>
 </template>
@@ -15,14 +15,16 @@
 <script>
 export default {
   name: "PriceFilter",
-  components: {
-  },
+  components: {},
   model: {
     prop: "price",
     event: "input",
   },
   props: {
-    price: Number,
+    price: {
+      type: Number,
+      default: 0,
+    },
   },
   data: () => ({
     min: 0,
@@ -33,15 +35,9 @@ export default {
       prefix: "RUB",
       suffix: "",
       length: 11,
-      precision: 0
+      precision: 0,
     },
   }),
-  methods: {
-    getFormattedPrice() {
-      const formatter=  new Intl.NumberFormat("ru-RU");
-      return formatter.format(this.price);
-    }
-  },
   computed: {
     priceInput: {
       set(value) {
@@ -49,19 +45,21 @@ export default {
       },
       get() {
         return this.price;
-      }
+      },
     },
-  }
-}
+  },
+  methods: {
+    getFormattedPrice() {
+      const formatter = new Intl.NumberFormat("ru-RU");
+      return formatter.format(this.price);
+    },
+  },
+};
 </script>
 
 <style scoped>
 .input {
   padding-left: 3%;
   padding-right: 3%;
-}
-
-.slider {
-  margin: 0 3%;
 }
 </style>

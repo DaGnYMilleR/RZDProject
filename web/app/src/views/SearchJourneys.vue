@@ -28,16 +28,7 @@ export default {
   components: { JourneySuggestions, JourneyFilters },
   data() {
     return {
-      suggestions: [
-        // HotelResponse.parse({
-        //   address: {lon: 37.617508, lat: 55.75204},
-        //   id: 333578,
-        //   imageUrl: "https://photo.hotellook.com/image_v2/limit/8678014703/800/520.auto",
-        //   name: "Moscow Marriott Grand Hotel",
-        //   price: 65345,
-        //   rating: 5,
-        // }),
-      ],
+      suggestions: [],
       tags: [
         {
           id: 1,

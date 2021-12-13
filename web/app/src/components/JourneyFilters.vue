@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <v-card>
-      <v-card-title>Настройки</v-card-title>
+      <v-card-title class="justify-center">Настройки</v-card-title>
       <CitiesFilter
         v-model="fromCityName"
         :cities="cities"
@@ -14,7 +14,11 @@
         v-model="tags"
         :tags-collection="tagsCollection.map((t) => t.name)"
       ></TagsFilter>
-      <v-btn class="v-picker--full-width" color="blue" @click="applyFilters()"
+      <v-btn
+        style="margin: 2%"
+        min-width="96%"
+        color="blue"
+        @click="applyFilters()"
         >Принять</v-btn
       >
     </v-card>

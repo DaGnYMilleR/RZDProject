@@ -1,31 +1,30 @@
 <template>
-  <v-card>
+  <v-card class="ma-2">
     <v-card-title>{{ label }}</v-card-title>
     <v-menu
-        v-model="menu2"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        min-width="auto"
-
+      v-model="menu2"
+      :close-on-content-click="false"
+      :nudge-right="40"
+      transition="scale-transition"
+      offset-y
+      min-width="auto"
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template #activator="{ on, attrs }">
         <v-text-field
-            color="blue"
-            v-model="dateModel"
-            :label="label"
-            prepend-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-            class="ml-3 mr-3"
+          v-model="dateModel"
+          color="blue"
+          :label="label"
+          prepend-icon="mdi-calendar"
+          readonly
+          v-bind="attrs"
+          class="ml-3 mr-3"
+          v-on="on"
         ></v-text-field>
       </template>
       <v-date-picker
-          color="blue"
-          v-model="dateModel"
-          @input="menu2 = false"
+        v-model="dateModel"
+        color="blue"
+        @input="menu2 = false"
       ></v-date-picker>
     </v-menu>
   </v-card>
@@ -39,24 +38,29 @@ export default {
     event: "onchange",
   },
   props: {
-    date: String,
+    date: {
+      type: String,
+      default: "",
+    },
     label: {
       type: String,
       default: "",
-    }
+    },
   },
   data: () => ({
     menu2: false,
   }),
   computed: {
     dateModel: {
-      set(value) { this.$emit("onchange", value); },
-      get() { return this.date; }
-    }
-  }
-}
+      set(value) {
+        this.$emit("onchange", value);
+      },
+      get() {
+        return this.date;
+      },
+    },
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
