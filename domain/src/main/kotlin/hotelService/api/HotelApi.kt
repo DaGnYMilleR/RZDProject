@@ -5,7 +5,7 @@ import models.City
 import models.DateSegment
 
 
-class HotelApi(val httpService: HttpService) : IHotelApi {
+class HotelApi(private val httpService: HttpService) : IHotelApi {
     private val hotelsCount = 5
     private val apiUrl = "http://engine.hotellook.com/api/v2/cache.json?location=%s" +
             "&currency=rub&checkIn=%s&checkOut=%s&limit=$hotelsCount"
