@@ -3,7 +3,10 @@ package main.controllers
 import JourneysService
 import Parameters
 import main.models.JourneyParametersRequestQuery
-import models.*
+import models.City
+import models.DateSegment
+import models.Journey
+import models.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
@@ -14,14 +17,16 @@ class JourneysController @Autowired constructor(val journeysService: JourneysSer
 
     @PostMapping("/journeys")
     @CrossOrigin(origins = ["*"])
-    fun journeys(@RequestBody query: JourneyParametersRequestQuery) : List<Journey> {
+    fun journeys(@RequestBody query: JourneyParametersRequestQuery): List<Journey> {
         val tags = query.tags.map { Tag(it) }
         return journeysService.getJourneys(
             Parameters(
                 City(query.cityName, tags, listOf()),
                 query.budget,
                 tags,
-                DateSegment(query.dateFrom, query.dateTo)))
+                DateSegment(query.dateFrom, query.dateTo)
+            )
+        )
     }
 }
 
