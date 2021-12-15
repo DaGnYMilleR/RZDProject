@@ -7,13 +7,9 @@ class HotelImageService(private val httpService: HttpService) : IHotelImageServi
     override fun getImages(hotelId: Long): HotelImages? {
         val url = "https://yasen.hotellook.com/photos/hotel_photos?id=${hotelId}"
         val response = httpService.getResponse<HashMap<Long, List<Long>>>(url)
-
         val imageIds = response[hotelId] ?: return null
 
-        if(imageIds.count() == 1)
-            return HotelImages(imageIds.first(), listOf())
-
-        return HotelImages(imageIds.first(), imageIds.drop(1))
+        return createHotelImages(imageIds)
     }
 
     override fun getImages(hotelIds: List<Long>): Map<Long, HotelImages> {

@@ -29,7 +29,7 @@ class JourneysService(
     private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey {
         val ticket = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration))
         val date = getTimeOfStayInCity(ticket.travellingTime)
-        val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date))
+        val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date, 20000.0))
         return Journey(cityTo, ticket, hotels)
     }
 
