@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Bean
 import rzdService.IRzdService
 import rzdService.RzdService
 import rzdService.api.IRzdApi
-import rzdService.api.MockedRzdApi
+import rzdService.api.RzdApi
 import rzdService.parser.IRzdResponseParser
 import rzdService.parser.RzdResponseParser
 
@@ -44,7 +44,7 @@ class RZDApplication{
     fun cities() : ICitiesRepository = CitiesRepository(CityDao())
 
     @Bean
-    fun rzdApi() : IRzdApi = MockedRzdApi()
+    fun rzdApi() : IRzdApi = RzdApi(httpService())
 
     @Bean
     fun rzdResponseParser() : IRzdResponseParser = RzdResponseParser()

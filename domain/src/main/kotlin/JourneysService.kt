@@ -29,11 +29,11 @@ class JourneysService(
         return compositeFilter.filter(journeys, parameters)
     }
 
-    private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey {
-        val ticket = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration))
-        val date = getTimeOfStayInCity(ticket.travellingTime)
+    private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey  {
+        val tickets = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration))
+        val date = getTimeOfStayInCity(tickets.first().travellingTime)
         val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date, 20000.0))
-        return Journey(cityTo, ticket, hotels)
+        return Journey(cityTo, tickets.first(), hotels)
     }
 
     private fun getTimeOfStayInCity(travellingTime: TravellingTime): DateSegment {
