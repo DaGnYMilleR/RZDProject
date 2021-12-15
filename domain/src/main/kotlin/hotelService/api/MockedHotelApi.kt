@@ -4,7 +4,7 @@ import models.City
 import models.DateSegment
 
 class MockedHotelApi : IHotelApi {
-    override fun makeRequest(destinationCity: City, journeyDuration: DateSegment): Array<HotelResponse> {
+    override fun makeRequest(destinationCity: City, journeyDuration: DateSegment, hotelsCount: Int): Array<HotelResponse> {
         val response = HotelResponse(
             Location("Country", GeoLocation(10f, 10f), "State", "Name"),
             100.0,
@@ -17,5 +17,4 @@ class MockedHotelApi : IHotelApi {
         )
         return arrayOf(response)
     }
-
 }

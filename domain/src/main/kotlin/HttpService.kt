@@ -6,6 +6,8 @@ import okhttp3.Response
 
 class HttpService {
     val json = Json { ignoreUnknownKeys = true }
+    private val okHttpClient: OkHttpClient = OkHttpClient()
+
     inline fun <reified T> getResponse(url: String): T {
         val response = call(url)
 
@@ -18,6 +20,6 @@ class HttpService {
             .get()
             .url(url)
             .build()
-        return OkHttpClient().newCall(request).execute()
+        return okHttpClient.newCall(request).execute()
     }
 }
