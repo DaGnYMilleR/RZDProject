@@ -1,5 +1,6 @@
 package citiesRepositoryRealisation.database
 
+import Config
 import kotlinx.serialization.json.*
 import models.City
 import models.Tag
@@ -8,7 +9,7 @@ import java.io.InputStream
 
 class CityDao {
     private val jsonObj: JsonObject
-    private val pathToJson = "./assets/cities.json"
+    private val pathToJson : String = Config().getPathToDB("pathToDB")
 
     init {
         val inputStream: InputStream = File(pathToJson).inputStream()
