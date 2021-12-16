@@ -12,8 +12,8 @@ class MockedRzdApi : IRzdApi {
         val time2 = time.plusWeeks(3)
         return listOf(
             Ticket(
-                City("Yekaterinburg", listOf(), listOf()),
-                City("Sochi", listOf(), listOf()),
+                City("Yekaterinburg", listOf(), listOf(), ""),
+                City("Sochi", listOf(), listOf(), ""),
                 1000.0,
                 TravellingTime(DateSegment(time, time.plusDays(1)), DateSegment(time2, time2.plusDays(1)))
             )

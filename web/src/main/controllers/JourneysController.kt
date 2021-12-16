@@ -21,7 +21,7 @@ class JourneysController @Autowired constructor(val journeysService: JourneysSer
         val tags = query.tags.map { Tag(it) }
         return journeysService.getJourneys(
             Parameters(
-                City(query.cityName, tags, listOf()),
+                City(query.cityName, tags, listOf(), "попа"),
                 query.budget,
                 tags,
                 DateSegment(query.dateFrom, query.dateTo)
