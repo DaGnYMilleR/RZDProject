@@ -23,7 +23,7 @@ class JourneysService(
             .minusElement(currentCity)
 
         val journeys = availableCities.parallelStream()
-            .map { createJourney(parameters.city, it, parameters.journeyDuration) }
+            .map { createJourney(currentCity, it, parameters.journeyDuration) }
             .toList()
 
         return compositeFilter.filter(journeys, parameters)
@@ -40,7 +40,3 @@ class JourneysService(
         return DateSegment(travellingTime.toPlace.end, travellingTime.fromPlace.start)
     }
 }
-
-
-
-
