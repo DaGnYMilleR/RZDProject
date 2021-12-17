@@ -1,7 +1,8 @@
 package hotelService.imageService
 
-import hotelService.api.HotelResponse
+import models.hotel.HotelImages
 
 interface IHotelImageService {
-    fun getImage(hotel: HotelResponse): String
+    fun getImages(hotelId: Long): HotelImages?
+    fun getImages(hotelIds: List<Long>) : Map<Long, HotelImages?>
 }

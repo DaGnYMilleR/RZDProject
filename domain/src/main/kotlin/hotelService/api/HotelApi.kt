@@ -5,14 +5,18 @@ import models.City
 import models.DateSegment
 
 
-class HotelApi(val httpService: HttpService) : IHotelApi {
-    private val hotelsCount = 5
+class HotelApi(private val httpService: HttpService) : IHotelApi {
     private val apiUrl = "http://engine.hotellook.com/api/v2/cache.json?location=%s" +
-            "&currency=rub&checkIn=%s&checkOut=%s&limit=$hotelsCount"
+            "&currency=rub&checkIn=%s&checkOut=%s&limit=%s"
 
-    override fun makeRequest(destinationCity: City, journeyDuration: DateSegment): Array<HotelResponse> {
+    override fun makeRequest(
+        destinationCity: City,
+        journeyDuration: DateSegment,
+        hotelsCount: Int
+    ): Array<HotelResponse> {
+
         return httpService.getResponse(
-            java.lang.String.format(apiUrl, destinationCity.name, journeyDuration.start, journeyDuration.end)
+            String.format(apiUrl, destinationCity.name, journeyDuration.start, journeyDuration.end, hotelsCount)
         )
     }
 }

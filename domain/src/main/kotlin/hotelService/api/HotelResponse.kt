@@ -10,7 +10,7 @@ data class HotelResponse(
     val hotelName: String,
     val stars: Int,
     val locationId: Int,
-    val hotelId: Int,
+    val hotelId: Long,
     val priceFrom: Double
 )
 
