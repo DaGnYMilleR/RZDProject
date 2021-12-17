@@ -10,15 +10,15 @@ import hotelService.HotelService
 import hotelService.IHotelService
 import hotelService.api.HotelApi
 import hotelService.api.IHotelApi
-import hotelService.imageService.HotelImageMock
 import hotelService.imageService.IHotelImageService
+import hotelService.imageService.HotelImageService
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import rzdService.IRzdService
 import rzdService.RzdService
 import rzdService.api.IRzdApi
-import rzdService.api.MockedRzdApi
+import rzdService.api.RzdApi
 import rzdService.parser.IRzdResponseParser
 import rzdService.parser.RzdResponseParser
 
@@ -38,13 +38,13 @@ class RZDApplication{
     fun hotelService(): IHotelService = HotelService(hotelApi(), hotelImageService())
 
     @Bean
-    fun hotelImageService(): IHotelImageService = HotelImageMock(httpService())
+    fun hotelImageService(): IHotelImageService = HotelImageService(httpService())
 
     @Bean
     fun cities() : ICitiesRepository = CitiesRepository(CityDao())
 
     @Bean
-    fun rzdApi() : IRzdApi = MockedRzdApi()
+    fun rzdApi() : IRzdApi = RzdApi(httpService())
 
     @Bean
     fun rzdResponseParser() : IRzdResponseParser = RzdResponseParser()

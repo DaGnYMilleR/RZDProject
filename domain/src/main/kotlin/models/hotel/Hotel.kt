@@ -1,12 +1,13 @@
-package models
+package models.hotel
 
 import hotelService.api.GeoLocation
 
 data class Hotel(
-    val id: Int,
+    val id: Long,
     val name: String,
     val address: GeoLocation,
     val price: Double,
     val rating: Int,
-    val imageUrl: String
+    val images: HotelImages?
 )
+
