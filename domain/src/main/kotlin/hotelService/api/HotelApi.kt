@@ -17,6 +17,6 @@ class HotelApi(private val httpService: HttpService) : IHotelApi {
 
         return httpService.getResponse(
             String.format(apiUrl, destinationCity.name, journeyDuration.start, journeyDuration.end, hotelsCount)
-        )
+        )!!
     }
 }

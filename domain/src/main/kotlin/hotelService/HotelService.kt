@@ -14,7 +14,7 @@ class HotelService(private val hotelApi: IHotelApi, private val imageService: IH
         if(response.isEmpty())
             return emptyList()
 
-        val images = imageService.getImages(response.map { it.hotelId })
+        val images = imageService.getImages(response.map { it.hotelId })!!
 
         return response
             .map { Hotel(it.hotelId, it.hotelName, it.location.geo, it.priceAvg, it.stars,
