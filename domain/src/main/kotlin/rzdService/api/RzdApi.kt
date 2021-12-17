@@ -23,10 +23,7 @@ class RzdApi(private val httpService: HttpService) : IRzdApi1 {
                     val ticketsFrom = httpService.getResponse<RzdResponse>(urlFrom)?.trips
                     if (ticketsTo != null && res.isEmpty() && ticketsTo.isNotEmpty() && ticketsFrom != null && ticketsFrom.isNotEmpty()) {
                         val price2 = ticketsFrom.map { it.categories.first().price }.first()
-                        System.out.println(price2)
                         res = ticketsTo.map {
-                            System.out.println(it.categories.first().price)
-                            System.out.println(it.categories.first().price + price2)
                             Ticket(
                                 cityFrom,
                                 cityTo,
@@ -39,7 +36,6 @@ class RzdApi(private val httpService: HttpService) : IRzdApi1 {
                         }
                         return@first
     }
-
                     }
                 }
             }
