@@ -8,9 +8,9 @@
       <v-col style="position: relative">
         <v-card-title>{{ name }}</v-card-title>
         <v-card-text> Цена: {{ formatMoney(price) }} </v-card-text>
-        <v-btn min-width="100%" class="button-select" @click="select"
-          >Хочу!</v-btn
-        >
+        <v-btn min-width="100%" class="button-select" @click="select">
+          Хочу!
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>

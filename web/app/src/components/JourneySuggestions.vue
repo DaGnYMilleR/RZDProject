@@ -14,16 +14,20 @@
         </v-card-title>
       </div>
     </v-card>
+
+    <JourneyModal :journey="suggestions[0]" />
   </div>
 </template>
 
 <script>
 import { MoneyFormatter } from "../utils/MoneyFormatter";
+import JourneyModal from "./JourneyModal";
 import JourneySuggestion from "./JourneySuggestion";
 
 export default {
   name: "JourneySuggestions",
   components: {
+    JourneyModal,
     JourneySuggestion,
   },
   props: {

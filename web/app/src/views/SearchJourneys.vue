@@ -316,7 +316,8 @@ export default {
   methods: {
     async requestApplyFilters(requestDto) {
       try {
-        const response = await fetch("http://localhost:8080/api/journeys/", {
+        const path = process.env.VUE_APP_API + "/api/journeys/";
+        const response = await fetch(path, {
           method: "POST",
           body: requestDto.toJson(),
           headers: {
