@@ -12,27 +12,37 @@ class RzdApi(private val httpService: HttpService) : IRzdApi1 {
         val time = journeyDuration.start
         val time2 = journeyDuration.end
         var res = listOf<Ticket>()
-        cityFrom.stationsId.forEach { idFrom ->
+        cityFrom.stationsId.forEach first@{ idFrom ->
             cityTo.stationsId.forEach { idTo ->
                 run {
-                    val url = "https://suggest.travelpayouts.com/search?service=" +
-                            "tutu_trains&term=${idFrom}&term2=${idTo}&date=${journeyDuration.start}"
-                    val tickets = httpService.getResponse<RzdResponse>(url)?.trips
-                    if (tickets != null && res.isNotEmpty())
-                        res = tickets.map {
+                    val urlTo = "https://suggest.travelpayouts.com/search?service=" +
+                            "tutu_trains&term=${idFrom}&term2=${idTo}&date=${time}"
+                    val urlFrom = "https://suggest.travelpayouts.com/search?service=" +
+                            "tutu_trains&term=${idTo}&term2=${idFrom}&date=${time2}"
+                    val ticketsTo = httpService.getResponse<RzdResponse>(urlTo)?.trips
+                    val ticketsFrom = httpService.getResponse<RzdResponse>(urlFrom)?.trips
+                    if (ticketsTo != null && res.isEmpty() && ticketsTo.isNotEmpty() && ticketsFrom != null && ticketsFrom.isNotEmpty()) {
+                        val price2 = ticketsFrom.map { it.categories.first().price }.first()
+                        System.out.println(price2)
+                        res = ticketsTo.map {
+                            System.out.println(it.categories.first().price)
+                            System.out.println(it.categories.first().price + price2)
                             Ticket(
                                 cityFrom,
                                 cityTo,
-                                it.categories.first().price,
+                                it.categories.first().price +  price2,
                                 TravellingTime(
                                     DateSegment(time, time.plusDays(1)),
                                     DateSegment(time2.minusDays(1), time2)
                                 )
                             )
                         }
+                        return@first
+    }
+
+                    }
                 }
             }
-        }
         return res
     }
 }

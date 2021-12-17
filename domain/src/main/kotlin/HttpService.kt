@@ -10,9 +10,10 @@ class HttpService {
 
     inline fun <reified T> getResponse(url: String): T? {
         val response = call(url)
-        if (response.body == null ||  response.body!!.string() == "[]")
+        val tex = response.body!!.string()
+        if (tex == "[]")
             return null
-        return json.decodeFromString(response.body!!.string())
+        return json.decodeFromString(tex)
     }
 
     fun call(url: String): Response {
