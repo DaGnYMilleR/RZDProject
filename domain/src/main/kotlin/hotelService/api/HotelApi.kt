@@ -14,9 +14,8 @@ class HotelApi(private val httpService: HttpService) : IHotelApi {
         journeyDuration: DateSegment,
         hotelsCount: Int
     ): Array<HotelResponse> {
-
-        return httpService.getResponse(
+        return httpService.getResponse<Array<HotelResponse>>(
             String.format(apiUrl, destinationCity.name, journeyDuration.start, journeyDuration.end, hotelsCount)
-        )!!
+        ) ?: emptyArray()
     }
 }
