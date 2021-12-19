@@ -5,12 +5,12 @@ import { Ticket } from "../entity/Ticket";
 export class JourneyResponse {
   /**
    * @param {City} city
-   * @param {Ticket} ticket
+   * @param {Ticket[]} tickets
    * @param {Hotel[]} hotels
    */
-  constructor(city, ticket, hotels) {
+  constructor(city, tickets, hotels) {
     this.city = city;
-    this.ticket = ticket;
+    this.tickets = tickets;
     this.hotels = hotels;
   }
 }
@@ -18,9 +18,9 @@ export class JourneyResponse {
 JourneyResponse.fromObject = (obj) => {
   return new JourneyResponse(
     City.fromObject(obj.city),
-    Ticket.fromObject(obj.ticket),
+    obj.tickets.map(Ticket.fromObject),
     obj.hotels.map(Hotel.fromObject)
   );
 };
 
-JourneyResponse.Null = new JourneyResponse(City.Null, Ticket.Null, []);
+JourneyResponse.Null = new JourneyResponse(City.Null, [], []);

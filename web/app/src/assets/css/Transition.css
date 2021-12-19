@@ -1,17 +1,17 @@
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 0.5s;
+  transition: opacity 0.5s;
 }
 
-.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */
-{
-    opacity: 0;
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
 }
 
 .highlight-border-enter-active {
-    transition: transform 0.1s linear;
+  transition: transform 0.1s linear;
 }
 
-.highlight-border-enter, .highlight-border-leave-to {
-    transform: scale(0.90, 0.90);
+.highlight-border-enter,
+.highlight-border-leave-to {
+  transform: scale(0.9, 0.9);
 }

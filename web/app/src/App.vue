@@ -19,7 +19,7 @@
         <router-view />
       </transition>
     </v-main>
-    <v-footer app>Курсовая работа</v-footer>
+    <v-footer app>Футер</v-footer>
   </v-app>
 </template>
 

@@ -1,18 +1,17 @@
 <template>
-  <v-container fluid>
-    <v-row no-gutters>
-      <v-col cols="4" align-self="center" align="center" class="pa-6">
-        <img :src="imageUrl" alt="" />
-        <v-rating readonly :length="maxRating" :value="rating"></v-rating>
-      </v-col>
-      <v-col style="position: relative">
-        <v-card-title>{{ name }}</v-card-title>
-        <v-card-text> Цена: {{ formatMoney(price) }} </v-card-text>
-        <v-btn min-width="100%" class="button-select" @click="select">
-          Хочу!
-        </v-btn>
-      </v-col>
-    </v-row>
+  <v-container fluid class="wrapper">
+    <v-card>
+      <v-row no-gutters>
+        <v-col cols="4" align-self="center" align="center" class="pa-6">
+          <img :src="imageUrl" alt="" />
+          <v-rating readonly :length="maxRating" :value="rating"></v-rating>
+        </v-col>
+        <v-col style="position: relative">
+          <v-card-title>{{ name }}</v-card-title>
+          <v-card-text> Цена: {{ formatMoney(price) }} </v-card-text>
+        </v-col>
+      </v-row>
+    </v-card>
   </v-container>
 </template>
 

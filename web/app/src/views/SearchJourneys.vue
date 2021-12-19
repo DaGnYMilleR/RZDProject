@@ -1,31 +1,43 @@
 <template>
   <v-container fluid style="height: 100%">
-    <div class="home">
-      <div class="header">Выбор путешествия</div>
-      <div class="content">
-        <div class="left">
-          <JourneySuggestions :suggestions="suggestions" />
-        </div>
-        <div class="right">
-          <JourneyFilters
-            :tags-collection="tags"
-            :cities="cities"
-            @onrequest="requestApplyFilters"
-          />
+    <transition-group name="fade" duration="500">
+      <JourneyModal
+        v-if="isModalOpened()"
+        key="modal"
+        :journey="selectedJourney"
+        @close="closeModal"
+      />
+      <div v-else key="content" class="home">
+        <div class="header">Выбор путешествия</div>
+        <div class="content">
+          <div class="left">
+            <JourneySuggestions
+              :suggestions="suggestions"
+              @select="openModal"
+            />
+          </div>
+          <div class="right">
+            <JourneyFilters
+              :tags-collection="tags"
+              :cities="cities"
+              @onrequest="requestApplyFilters"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </transition-group>
   </v-container>
 </template>
 
 <script>
 import JourneyFilters from "../components/JourneyFilters";
+import JourneyModal from "../components/JourneyModal";
 import JourneySuggestions from "../components/JourneySuggestions";
 import { JourneyResponse } from "../models/response/JourneyResponse";
 
 export default {
   name: "SearchJourneys",
-  components: { JourneySuggestions, JourneyFilters },
+  components: { JourneyModal, JourneySuggestions, JourneyFilters },
   data() {
     return {
       suggestions: [
@@ -41,30 +53,61 @@ export default {
               { value: "есентуки" },
             ],
             stationsIds: [2064060],
+            imageUrl:
+              "https://www.study.ru/uploads/server/NkkQL85HhpDn6Xq0.jpg",
           },
-          ticket: {
-            cityFrom: {
-              name: "Yekaterinburg",
-              tags: [],
-              stationsIds: [],
-            },
-            cityTo: {
-              name: "Sochi",
-              tags: [],
-              stationsIds: [],
-            },
-            cost: 1000,
-            travellingTime: {
-              toPlace: {
-                start: "2021-12-12",
-                end: "2021-12-13",
+          tickets: [
+            {
+              cityFrom: {
+                name: "Yekaterinburg",
+                tags: [],
+                stationsIds: [],
               },
-              fromPlace: {
-                start: "2021-12-30",
-                end: "2021-12-31",
+              cityTo: {
+                name: "Sochi",
+                tags: [],
+                stationsIds: [],
               },
+              cost: 1000,
+              travellingTime: {
+                toPlace: {
+                  start: "2021-12-12",
+                  end: "2021-12-13",
+                },
+                fromPlace: {
+                  start: "2021-12-30",
+                  end: "2021-12-31",
+                },
+              },
+              urlTo: "ASDASDA",
+              urlFrom: "ASDSADA",
             },
-          },
+            {
+              cityFrom: {
+                name: "Yekaterinburg",
+                tags: [],
+                stationsIds: [],
+              },
+              cityTo: {
+                name: "Sochi",
+                tags: [],
+                stationsIds: [],
+              },
+              cost: 1000,
+              travellingTime: {
+                toPlace: {
+                  start: "2021-12-12",
+                  end: "2021-12-13",
+                },
+                fromPlace: {
+                  start: "2021-12-30",
+                  end: "2021-12-31",
+                },
+              },
+              urlTo: "ASDASDA",
+              urlFrom: "ASDSADA",
+            },
+          ],
           hotels: [
             {
               id: 1406953704,
@@ -72,7 +115,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 52274.15,
               rating: 5,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 1224984043,
@@ -80,7 +126,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 67150,
               rating: 4,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 611050,
@@ -88,7 +137,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 436644.99,
               rating: 4,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 543356,
@@ -96,7 +148,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 42500,
               rating: 3,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 9192717,
@@ -104,7 +159,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 37400,
               rating: 2,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
           ],
         }),
@@ -120,30 +178,36 @@ export default {
               { value: "есентуки" },
             ],
             stationsIds: [2064060],
+            imageUrl:
+              "https://www.study.ru/uploads/server/NkkQL85HhpDn6Xq0.jpg",
           },
-          ticket: {
-            cityFrom: {
-              name: "Yekaterinburg",
-              tags: [],
-              stationsIds: [],
-            },
-            cityTo: {
-              name: "Sochi",
-              tags: [],
-              stationsIds: [],
-            },
-            cost: 1000,
-            travellingTime: {
-              toPlace: {
-                start: "2021-12-12",
-                end: "2021-12-13",
+          tickets: [
+            {
+              cityFrom: {
+                name: "Yekaterinburg",
+                tags: [],
+                stationsIds: [],
               },
-              fromPlace: {
-                start: "2021-12-30",
-                end: "2021-12-31",
+              cityTo: {
+                name: "Sochi",
+                tags: [],
+                stationsIds: [],
               },
+              cost: 1000,
+              travellingTime: {
+                toPlace: {
+                  start: "2021-12-12",
+                  end: "2021-12-13",
+                },
+                fromPlace: {
+                  start: "2021-12-30",
+                  end: "2021-12-31",
+                },
+              },
+              urlTo: "",
+              urlFrom: "",
             },
-          },
+          ],
           hotels: [
             {
               id: 1406953704,
@@ -151,7 +215,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 52274.15,
               rating: 5,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 1224984043,
@@ -159,7 +226,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 67150,
               rating: 4,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 611050,
@@ -167,7 +237,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 436644.99,
               rating: 4,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 543356,
@@ -175,7 +248,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 42500,
               rating: 3,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 9192717,
@@ -183,7 +259,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 37400,
               rating: 2,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
           ],
         }),
@@ -199,30 +278,36 @@ export default {
               { value: "есентуки" },
             ],
             stationsIds: [2064060],
+            imageUrl:
+              "https://www.study.ru/uploads/server/NkkQL85HhpDn6Xq0.jpg",
           },
-          ticket: {
-            cityFrom: {
-              name: "Yekaterinburg",
-              tags: [],
-              stationsIds: [],
-            },
-            cityTo: {
-              name: "Sochi",
-              tags: [],
-              stationsIds: [],
-            },
-            cost: 1000,
-            travellingTime: {
-              toPlace: {
-                start: "2021-12-12",
-                end: "2021-12-13",
+          tickets: [
+            {
+              cityFrom: {
+                name: "Yekaterinburg",
+                tags: [],
+                stationsIds: [],
               },
-              fromPlace: {
-                start: "2021-12-30",
-                end: "2021-12-31",
+              cityTo: {
+                name: "Sochi",
+                tags: [],
+                stationsIds: [],
               },
+              cost: 1000,
+              travellingTime: {
+                toPlace: {
+                  start: "2021-12-12",
+                  end: "2021-12-13",
+                },
+                fromPlace: {
+                  start: "2021-12-30",
+                  end: "2021-12-31",
+                },
+              },
+              urlTo: "",
+              urlFrom: "",
             },
-          },
+          ],
           hotels: [
             {
               id: 1406953704,
@@ -230,7 +315,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 52274.15,
               rating: 5,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 1224984043,
@@ -238,7 +326,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 67150,
               rating: 4,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 611050,
@@ -246,7 +337,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 436644.99,
               rating: 4,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 543356,
@@ -254,7 +348,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 42500,
               rating: 3,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
             {
               id: 9192717,
@@ -262,7 +359,10 @@ export default {
               address: { lon: 43.0594, lat: 44.0486 },
               price: 37400,
               rating: 2,
-              imageUrl: "",
+              images: {
+                mainId: 1,
+                extraIds: [],
+              },
             },
           ],
         }),
@@ -311,6 +411,7 @@ export default {
           name: "Ишим",
         },
       ],
+      selectedJourney: null,
     };
   },
   methods: {
@@ -336,11 +437,25 @@ export default {
         console.log(e.message);
       }
     },
+
+    openModal(journey) {
+      this.selectedJourney = journey;
+    },
+
+    closeModal() {
+      this.selectedJourney = null;
+    },
+
+    isModalOpened() {
+      return this.selectedJourney !== null;
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
+@import "../assets/css/Transition.css";
+
 .home {
   display: flex;
   height: 100%;
@@ -362,7 +477,6 @@ export default {
 }
 
 .left {
-  flex-grow: 3;
   margin-right: 1%;
 }
 
