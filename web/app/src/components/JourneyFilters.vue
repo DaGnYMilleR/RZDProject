@@ -9,7 +9,7 @@
       ></CitiesFilter>
       <PriceFilter v-model="price"></PriceFilter>
       <DateFilter v-model="startDate" label="Дата отправления"></DateFilter>
-      <DateFilter v-model="endDate" label="Дата прибытия"></DateFilter>
+      <DateFilter v-model="endDate" label="Дата возвращения"></DateFilter>
       <TagsFilter
         v-model="tags"
         :tags-collection="tagsCollection.map((t) => t.name)"
@@ -23,6 +23,15 @@
         Принять
       </v-btn>
     </v-card>
+
+    <v-snackbar v-model="hasError" :timeout="timeout">
+      {{ error }}
+      <template #action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          ЗАКРЫТЬ
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -48,22 +57,45 @@ export default {
   },
   data() {
     return {
-      fromCityName: "",
-      price: 100,
-      startDate: "",
-      endDate: "",
+      fromCityName: undefined,
+      price: undefined,
+      startDate: undefined,
+      endDate: undefined,
       tags: [],
+
+      timeout: 3000,
+      error: "",
+      hasError: false,
     };
   },
   methods: {
     applyFilters() {
-      const request = new JourneyRequest();
-      request.cityName = this.fromCityName;
-      request.budget = this.price;
-      request.dateFrom = this.startDate;
-      request.dateTo = this.endDate;
-      request.tags = this.tags;
-      this.$emit("onrequest", request);
+      if (this.fromCityName === undefined) {
+        this.setError("Вы не указали город");
+      } else if (this.price === undefined) {
+        this.setError("Вы не указали бюджет");
+      } else if (this.startDate === undefined) {
+        this.setError("Вы не указали дату отправления");
+      } else if (this.endDate === undefined) {
+        this.setError("Вы не указали дату вовзращения");
+      } else if (this.price <= 0) {
+        this.setError("Цена должна быть больше 0");
+      } else if (Date.parse(this.startDate) > Date.parse(this.endDate)) {
+        this.setError("Дата отправления должна быть раньше даты возвращения");
+      } else {
+        const request = new JourneyRequest();
+        request.cityName = this.fromCityName;
+        request.budget = this.price;
+        request.dateFrom = this.startDate;
+        request.dateTo = this.endDate;
+        request.tags = this.tags;
+        this.$emit("onrequest", request);
+      }
+    },
+
+    setError(message) {
+      this.error = message;
+      this.hasError = true;
     },
   },
 };
