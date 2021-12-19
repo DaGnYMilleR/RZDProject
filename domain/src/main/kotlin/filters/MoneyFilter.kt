@@ -9,8 +9,8 @@ class MoneyFilter : IFilter {
         return journeys.map { journey ->
             Journey(
                 journey.city,
-                journey.ticket,
-                journey.hotels.filter { it.price + journey.ticket.cost <= parameters.money }
+                journey.tickets,
+                journey.hotels.filter { it.price <= parameters.money }
             )
         }
     }
