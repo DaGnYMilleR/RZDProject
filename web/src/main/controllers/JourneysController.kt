@@ -19,14 +19,9 @@ class JourneysController @Autowired constructor(val journeysService: JourneysSer
     @CrossOrigin(origins = ["*"])
     fun journeys(@RequestBody query: JourneyParametersRequestQuery): List<Journey> {
         val tags = query.tags.map { Tag(it) }
-        return journeysService.getJourneys(
-            Parameters(
-                City(query.cityName, tags, listOf(), "попа"),
-                query.budget,
-                tags,
-                DateSegment(query.dateFrom, query.dateTo)
-            )
-        )
+        val journeyDuration = DateSegment(query.dateFrom, query.dateTo)
+        val parameters = Parameters(query.cityName, query.budget, tags, journeyDuration)
+        return journeysService.getJourneys(parameters)
     }
 }
 

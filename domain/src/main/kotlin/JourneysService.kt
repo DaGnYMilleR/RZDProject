@@ -17,7 +17,7 @@ class JourneysService(
     private val compositeFilter: ICompositeFilter
 ) {
     fun getJourneys(parameters: IParameters): List<Journey> {
-        val currentCity = citiesRepository.getCityByName(parameters.city.name)
+        val currentCity = citiesRepository.getCityByName(parameters.cityName)
         val availableCities = citiesRepository
             .getCitiesByTags(parameters.tags, 5)
             .minusElement(currentCity)
