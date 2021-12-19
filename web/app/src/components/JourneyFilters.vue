@@ -8,8 +8,16 @@
         label="Город отправления"
       ></CitiesFilter>
       <PriceFilter v-model="price"></PriceFilter>
-      <DateFilter v-model="startDate" label="Дата отправления"></DateFilter>
-      <DateFilter v-model="endDate" label="Дата возвращения"></DateFilter>
+      <DateFilter
+        v-model="startDate"
+        label="Дата отправления"
+        :allowed-dates="canStart"
+      ></DateFilter>
+      <DateFilter
+        v-model="endDate"
+        label="Дата возвращения"
+        :allowed-dates="canEnd"
+      ></DateFilter>
       <TagsFilter
         v-model="tags"
         :tags-collection="tagsCollection.map((t) => t.name)"
@@ -41,6 +49,10 @@ import CitiesFilter from "./Filters/CitiesFilter";
 import DateFilter from "./Filters/DateFilter";
 import PriceFilter from "./Filters/PriceFilter";
 import TagsFilter from "./Filters/TagsFilter";
+
+function transformToLocalDate(dateStr) {
+  return dateStr;
+}
 
 export default {
   name: "JourneyFilters",
@@ -82,12 +94,14 @@ export default {
         this.setError("Цена должна быть больше 0");
       } else if (Date.parse(this.startDate) > Date.parse(this.endDate)) {
         this.setError("Дата отправления должна быть раньше даты возвращения");
+      } else if (Date.now() > Date.parse(this.startDate)) {
+        this.setError("Дата отправления должна быть не раньше текущей даты");
       } else {
         const request = new JourneyRequest();
         request.cityName = this.fromCityName;
         request.budget = this.price;
-        request.dateFrom = this.startDate;
-        request.dateTo = this.endDate;
+        request.dateFrom = transformToLocalDate(this.startDate);
+        request.dateTo = transformToLocalDate(this.endDate);
         request.tags = this.tags;
         this.$emit("onrequest", request);
       }
@@ -96,6 +110,16 @@ export default {
     setError(message) {
       this.error = message;
       this.hasError = true;
+    },
+
+    canStart(date) {
+      return Date.parse(date) > Date.now();
+    },
+
+    canEnd(date) {
+      return this.startDate
+        ? Date.parse(this.startDate) + 1000 * 60 * 24 < Date.parse(date)
+        : true;
     },
   },
 };

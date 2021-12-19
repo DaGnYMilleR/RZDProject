@@ -416,6 +416,7 @@ export default {
   },
   methods: {
     async requestApplyFilters(requestDto) {
+      console.log(requestDto.toJson());
       try {
         const path = process.env.VUE_APP_API + "/api/journeys/";
         const response = await fetch(path, {
@@ -426,9 +427,9 @@ export default {
           },
         });
         if (response.status === 200) {
-          this.suggestions = JSON.parse(await response.text()).map(
-            JourneyResponse.fromObject
-          );
+          const text = await response.text();
+          console.log(JSON.parse(text));
+          this.suggestions = JSON.parse(text).map(JourneyResponse.fromObject);
           console.log(this.suggestions);
         } else {
           console.log(response.json());

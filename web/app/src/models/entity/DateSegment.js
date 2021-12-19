@@ -4,9 +4,13 @@ export class DateSegment {
    * @param {String} end
    */
   constructor(start, end) {
-    this.start = start;
-    this.end = end;
+    this.start = parseDate(start);
+    this.end = parseDate(end);
   }
+}
+
+function parseDate(date) {
+  return new Date(Date.parse(date)).toLocaleDateString();
 }
 
 DateSegment.fromObject = (obj) => {

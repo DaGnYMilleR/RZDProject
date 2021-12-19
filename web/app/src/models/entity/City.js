@@ -4,13 +4,13 @@ export class City {
   /**
    * @param {String} name
    * @param {Tag[]} tags
-   * @param {Number[]} stationsIds
+   * @param {Number[]} stationsId
    * @param {String} imageUrl
    */
-  constructor(name, tags, stationsIds, imageUrl) {
+  constructor(name, tags, stationsId, imageUrl) {
     this.name = name;
     this.tags = tags;
-    this.stationsIds = stationsIds;
+    this.stationsId = stationsId;
     this.imageUrl = imageUrl;
   }
 }
@@ -19,7 +19,7 @@ City.fromObject = (obj) => {
   return new City(
     obj.name,
     obj.tags.map(Tag.fromObject),
-    obj.stationsIds,
+    obj.stationsId,
     obj.imageUrl
   );
 };

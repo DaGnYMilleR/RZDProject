@@ -5,7 +5,7 @@ export class HotelImages {
    */
   constructor(mainId, extraIds) {
     this.mainImgUrl = getImageUrl(mainId);
-    this.extraImgUrls = extraIds.map(getImageUrl);
+    this.extraImgUrls = extraIds?.map(getImageUrl) ?? [];
   }
 }
 

@@ -24,6 +24,7 @@
       <v-date-picker
         v-model="dateModel"
         color="blue"
+        :allowed-dates="allowedDates"
         @input="menu2 = false"
       ></v-date-picker>
     </v-menu>
@@ -45,6 +46,11 @@ export default {
     label: {
       type: String,
       default: "",
+    },
+    allowedDates: {
+      type: Function,
+      // eslint-disable-next-line no-unused-vars
+      default: (_data) => true,
     },
   },
   data: () => ({
