@@ -23,7 +23,7 @@ class JourneysService(
             .minusElement(currentCity)
 
         val journeys = availableCities.parallelStream()
-            .map { createJourney(parameters.city, it, parameters.journeyDuration) }
+            .map { createJourney(currentCity, it, parameters.journeyDuration) }
             .toList()
 
         return compositeFilter.filter(journeys, parameters)
@@ -31,16 +31,14 @@ class JourneysService(
 
     private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey  {
         val tickets = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration))
+        if (tickets.isEmpty())
+            return Journey(cityTo, tickets, listOf())
         val date = getTimeOfStayInCity(tickets.first().travellingTime)
         val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date, 20000.0))
-        return Journey(cityTo, tickets.first(), hotels)
+        return Journey(cityTo, tickets, hotels)
     }
 
     private fun getTimeOfStayInCity(travellingTime: TravellingTime): DateSegment {
         return DateSegment(travellingTime.toPlace.end, travellingTime.fromPlace.start)
     }
 }
-
-
-
-

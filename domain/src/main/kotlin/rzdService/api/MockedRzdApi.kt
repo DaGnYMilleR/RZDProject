@@ -15,7 +15,8 @@ class MockedRzdApi : IRzdApi {
                 City("Yekaterinburg", listOf(), listOf(), ""),
                 City("Sochi", listOf(), listOf(), ""),
                 1000.0,
-                TravellingTime(DateSegment(time, time.plusDays(1)), DateSegment(time2, time2.plusDays(1)))
+                TravellingTime(DateSegment(time, time.plusDays(1)), DateSegment(time2, time2.plusDays(1))),
+                "", ""
             )
         )
     }
