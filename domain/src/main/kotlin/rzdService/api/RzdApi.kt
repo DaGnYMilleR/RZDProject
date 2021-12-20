@@ -12,18 +12,17 @@ class RzdApi(private val httpService: HttpService) : IRzdApi1 {
     override fun request(cityFrom: City, cityTo: City, journeyDuration: DateSegment, cost: Double): List<Ticket> {
         val dayStartTraveling = journeyDuration.start
         val dayEndTraveling = journeyDuration.end
-        var listTickets = listOf<Ticket>()
         first@ for (idFrom in cityFrom.stationsId){
             for (idTo in cityTo.stationsId){
                 val ticketsTo = getResponse(idFrom, idTo, dayStartTraveling).filter { isPlazcard(it) }
-                if (isTicketValid(ticketsTo) && listTickets.isEmpty()) {
-                    listTickets = getTickets(ticketsTo, idTo, idFrom, dayStartTraveling, dayEndTraveling, cityFrom, cityTo, cost)
+                if (isTicketValid(ticketsTo)) {
+                    val listTickets = getTickets(ticketsTo, idTo, idFrom, dayStartTraveling, dayEndTraveling, cityFrom, cityTo, cost)
                     if (listTickets.isNotEmpty())
                         return listTickets
                 }
             }
         }
-        return listTickets
+        return listOf<Ticket>()
     }
 
     private fun isTicketValid(ticket: List<Trip>?): Boolean = (ticket != null) && ticket.isNotEmpty()
@@ -33,7 +32,7 @@ class RzdApi(private val httpService: HttpService) : IRzdApi1 {
     private fun getTickets(ticketsTo: List<Trip>, idTo: Int, idFrom: Int, dayStartTraveling: LocalDate, dayEndTraveling: LocalDate, cityFrom: City, cityTo: City, cost: Double): List<Ticket> {
         val timeTraveling = getCountDaysTravel(ticketsTo.first().travelTimeInSeconds.toInt())
         val dayArrivalTo = dayStartTraveling.plusDays(timeTraveling.toLong())
-        val ticketsFrom = getResponse(idTo, idFrom, dayStartTraveling.minusDays(timeTraveling.toLong()))?.filter { isPlazcard(it) }
+        val ticketsFrom = getResponse(idTo, idFrom, dayStartTraveling.minusDays(timeTraveling.toLong())).filter { isPlazcard(it) }
 
         if (isTicketValid(ticketsFrom)) {
 
