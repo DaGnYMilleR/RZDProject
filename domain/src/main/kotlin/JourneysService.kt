@@ -30,7 +30,7 @@ class JourneysService(
     }
 
     private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment, budget: Double): Journey  {
-        val tickets = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration))
+        val tickets = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration, budget))
         if (tickets.isEmpty())
             return Journey(cityTo, tickets, listOf())
         val travellingCost = tickets.maxOf { it.cost }

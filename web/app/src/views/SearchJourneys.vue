@@ -473,6 +473,7 @@ export default {
     };
   },
   methods: {
+
     async requestApplyFilters(requestDto) {
       console.log(requestDto.toJson());
       this.cachedRequest = requestDto;
@@ -487,7 +488,6 @@ export default {
         });
         if (response.status === 200) {
           const text = await response.text();
-          console.log(JSON.parse(text));
           this.suggestions = JSON.parse(text).map(JourneyResponse.fromObject);
           console.log(this.suggestions);
         } else {
