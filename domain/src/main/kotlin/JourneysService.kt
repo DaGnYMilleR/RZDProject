@@ -17,29 +17,29 @@ class JourneysService(
     private val compositeFilter: ICompositeFilter
 ) {
     fun getJourneys(parameters: IParameters): List<Journey> {
+        val currentCity = citiesRepository.getCityByName(parameters.cityName)
         val availableCities = citiesRepository
             .getCitiesByTags(parameters.tags, 5)
-            .minusElement(parameters.city)
+            .minusElement(currentCity)
 
         val journeys = availableCities.parallelStream()
-            .map { createJourney(parameters.city, it, parameters.journeyDuration) }
+            .map { createJourney(currentCity, it, parameters.journeyDuration, parameters.money) }
             .toList()
 
         return compositeFilter.filter(journeys, parameters)
     }
 
-    private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Journey {
-        val ticket = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration))
-        val date = getTimeOfStayInCity(ticket.travellingTime)
-        val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date, 20000.0))
-        return Journey(cityTo, ticket, hotels)
+    private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment, budget: Double): Journey  {
+        val tickets = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration, budget))
+        if (tickets.isEmpty())
+            return Journey(cityTo, tickets, listOf())
+        val travellingCost = tickets.maxOf { it.cost }
+        val date = getTimeOfStayInCity(tickets.first().travellingTime)
+        val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date, budget - travellingCost))
+        return Journey(cityTo, tickets, hotels)
     }
 
     private fun getTimeOfStayInCity(travellingTime: TravellingTime): DateSegment {
         return DateSegment(travellingTime.toPlace.end, travellingTime.fromPlace.start)
     }
 }
-
-
-
-

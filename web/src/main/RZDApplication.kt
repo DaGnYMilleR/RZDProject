@@ -10,17 +10,20 @@ import hotelService.HotelService
 import hotelService.IHotelService
 import hotelService.api.HotelApi
 import hotelService.api.IHotelApi
-import hotelService.imageService.IHotelImageService
 import hotelService.imageService.HotelImageService
+import hotelService.imageService.IHotelImageService
+import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import rzdService.IRzdService
 import rzdService.RzdService
 import rzdService.api.IRzdApi
-import rzdService.api.MockedRzdApi
+import rzdService.api.RzdApi
 import rzdService.parser.IRzdResponseParser
 import rzdService.parser.RzdResponseParser
+import java.util.*
+
 
 fun main(args: Array<String>) {
     runApplication<RZDApplication>(*args)
@@ -44,7 +47,7 @@ class RZDApplication{
     fun cities() : ICitiesRepository = CitiesRepository(CityDao())
 
     @Bean
-    fun rzdApi() : IRzdApi = MockedRzdApi()
+    fun rzdApi() : IRzdApi = RzdApi(httpService())
 
     @Bean
     fun rzdResponseParser() : IRzdResponseParser = RzdResponseParser()
@@ -53,7 +56,7 @@ class RZDApplication{
     fun rzd() : IRzdService = RzdService(rzdApi(), rzdResponseParser())
 
     @Bean
-    fun filter() : List<IFilter> = listOf(MoneyFilter(), PlaceFilter())
+    fun filter() : List<IFilter> = listOf(BadJourneyFilter(), MoneyFilter(), PlaceFilter())
 
     @Bean
     fun compositeFilter() : ICompositeFilter = CompositeFilter(filter())

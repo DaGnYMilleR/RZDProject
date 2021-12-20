@@ -1,19 +1,25 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import MainPage from "../views/MainPage";
 import SearchJourneys from "../views/SearchJourneys";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'SearchJourneys',
-    component: SearchJourneys
+    path: "/",
+    name: "MainPage",
+    component: MainPage,
   },
-]
+  {
+    path: "/journeys",
+    name: "SearchJourneys",
+    component: SearchJourneys,
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

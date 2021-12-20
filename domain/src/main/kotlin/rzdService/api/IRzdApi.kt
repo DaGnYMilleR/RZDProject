@@ -6,6 +6,5 @@ import models.Ticket
 
 
 interface IRzdApi {
-    fun request(cityFrom: City, cityTo: City, journeyDuration: DateSegment): Ticket
+    fun request(cityFrom: City, cityTo: City, journeyDuration: DateSegment, cost: Double): List<Ticket>
 }
-

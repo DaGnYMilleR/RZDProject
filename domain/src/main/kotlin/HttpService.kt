@@ -8,10 +8,12 @@ class HttpService {
     val json = Json { ignoreUnknownKeys = true }
     private val okHttpClient: OkHttpClient = OkHttpClient()
 
-    inline fun <reified T> getResponse(url: String): T {
+    inline fun <reified T> getResponse(url: String): T? {
         val response = call(url)
-
-        return json.decodeFromString(response.body!!.string())
+        val tex = response.body!!.string()
+        if (tex == "[]")
+            return null
+        return json.decodeFromString(tex)
     }
 
     fun call(url: String): Response {

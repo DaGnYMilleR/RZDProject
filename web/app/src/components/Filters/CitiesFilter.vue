@@ -1,20 +1,20 @@
 <template>
-  <v-card>
+  <v-content class="pa-0">
     <v-card-title>Город отправления</v-card-title>
     <v-combobox
-        v-model="cityName"
-        :hint="cityName"
-        :items="cities.map(c => c.name)"
-        :label="label"
-        placeholder="Выберите город"
-        dense
-        outlined
-        clearable
-        color="blue"
-        item-color="blue"
-        class="ml-3 mr-3"
+      v-model="cityName"
+      :hint="cityName"
+      :items="cities.map((c) => c.name)"
+      :label="label"
+      placeholder="Выберите город"
+      dense
+      outlined
+      clearable
+      color="blue"
+      item-color="blue"
+      class="ml-3 mr-3"
     ></v-combobox>
-  </v-card>
+  </v-content>
 </template>
 
 <script>
@@ -25,27 +25,28 @@ export default {
     event: "onchange",
   },
   props: {
-    city: String,
+    city: {
+      type: String,
+      default: "",
+    },
     label: {
       type: String,
       default: "",
     },
-    cities: Array
+    cities: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     cityName: {
-      get() {return this.city; },
+      get() {
+        return this.city;
+      },
       set(value) {
         this.$emit("onchange", value);
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 </script>
-
-<style scoped>
-.input {
-  margin-left: 3%;
-  margin-right: 3%;
-}
-</style>

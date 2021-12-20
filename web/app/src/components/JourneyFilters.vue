@@ -1,61 +1,138 @@
 <template>
   <div class="wrapper">
     <v-card>
-      <v-card-title>Настройки</v-card-title>
-        <CitiesFilter v-model="fromCityName" :cities="cities" label="Город отправления"></CitiesFilter>
-        <PriceFilter v-model="price"></PriceFilter>
-        <DateFilter v-model="startDate" label="Дата отправления"></DateFilter>
-        <DateFilter v-model="endDate" label="Дата прибытия"></DateFilter>
-        <TagsFilter v-model="tags" :tags-collection="tagsCollection.map(t => t.name)"></TagsFilter>
-        <v-btn  @click="applyFilters()" class="v-picker--full-width" color="blue">Принять</v-btn>
+      <v-card-title class="justify-center">Настройки</v-card-title>
+      <CitiesFilter
+        v-model="fromCityName"
+        :cities="cities"
+        label="Город отправления"
+      ></CitiesFilter>
+      <PriceFilter v-model="price"></PriceFilter>
+      <DateFilter
+        v-model="startDate"
+        label="Дата отправления"
+        :allowed-dates="canStart"
+      ></DateFilter>
+      <DateFilter
+        v-model="endDate"
+        label="Дата возвращения"
+        :allowed-dates="canEnd"
+      ></DateFilter>
+      <TagsFilter
+        v-model="tags"
+        :tags-collection="tagsCollection.map((t) => t.name)"
+      ></TagsFilter>
+      <v-btn
+        style="margin: 2%"
+        min-width="96%"
+        color="blue"
+        @click="applyFilters()"
+      >
+        Принять
+      </v-btn>
     </v-card>
+
+    <v-snackbar v-model="hasError" :timeout="timeout">
+      {{ error }}
+      <template #action="{ attrs }">
+        <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+          ЗАКРЫТЬ
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
-import { JourneyParametersRequest } from "../models/JourneyParametersRequest";
+import { JourneyRequest } from "../models/request/JourneyRequest";
 import CitiesFilter from "./Filters/CitiesFilter";
 import DateFilter from "./Filters/DateFilter";
 import PriceFilter from "./Filters/PriceFilter";
 import TagsFilter from "./Filters/TagsFilter";
 
+function transformToLocalDate(dateStr) {
+  return dateStr;
+}
+
 export default {
   name: "JourneyFilters",
-  components: {TagsFilter, DateFilter, PriceFilter, CitiesFilter},
+  components: { TagsFilter, DateFilter, PriceFilter, CitiesFilter },
   props: {
-    tagsCollection: Array,
-    cities: Array,
+    tagsCollection: {
+      type: Array,
+      default: () => [],
+    },
+    cities: {
+      type: Array,
+      default: () => [],
+    },
+    cachedRequest: {
+      type: JourneyRequest,
+      default: () => new JourneyRequest(),
+    },
   },
   data() {
     return {
-      fromCityName: "",
-      price: 100,
-      startDate: "",
-      endDate: "",
+      fromCityName: undefined,
+      price: undefined,
+      startDate: undefined,
+      endDate: undefined,
       tags: [],
+
+      timeout: 3000,
+      error: "",
+      hasError: false,
     };
   },
+  mounted() {
+    if (this.cachedRequest) {
+      this.fromCityName = this.cachedRequest.cityName;
+      this.price = this.cachedRequest.budget;
+      this.startDate = this.cachedRequest.dateFrom;
+      this.endDate = this.cachedRequest.dateTo;
+      this.tags = this.cachedRequest.tags;
+    }
+  },
   methods: {
-    toggleTag(tagName) {
-      const tags = this.tags;
-      const idx = tags.indexOf(tagName);
-      if (idx === -1) {
-        tags.push(tagName);
+    applyFilters() {
+      if (this.fromCityName === undefined) {
+        this.setError("Вы не указали город");
+      } else if (this.price === undefined) {
+        this.setError("Вы не указали бюджет");
+      } else if (this.startDate === undefined) {
+        this.setError("Вы не указали дату отправления");
+      } else if (this.endDate === undefined) {
+        this.setError("Вы не указали дату вовзращения");
+      } else if (this.price <= 0) {
+        this.setError("Цена должна быть больше 0");
+      } else if (Date.parse(this.startDate) > Date.parse(this.endDate)) {
+        this.setError("Дата отправления должна быть раньше даты возвращения");
+      } else if (Date.now() > Date.parse(this.startDate)) {
+        this.setError("Дата отправления должна быть не раньше текущей даты");
       } else {
-        tags.splice(idx, 1);
+        const request = new JourneyRequest();
+        request.cityName = this.fromCityName;
+        request.budget = this.price;
+        request.dateFrom = transformToLocalDate(this.startDate);
+        request.dateTo = transformToLocalDate(this.endDate);
+        request.tags = this.tags;
+        this.$emit("onrequest", request);
       }
     },
-    isTagActive(tagName) {
-      return this.tags.includes(tagName);
+
+    setError(message) {
+      this.error = message;
+      this.hasError = true;
     },
-    applyFilters() {
-      const request = new JourneyParametersRequest();
-      request.cityName = this.fromCityName;
-      request.budget = this.price;
-      request.dateFrom = this.startDate;
-      request.dateTo = this.endDate;
-      request.tags = this.tags;
-      this.$emit("onrequest", request);
+
+    canStart(date) {
+      return Date.parse(date) > Date.now();
+    },
+
+    canEnd(date) {
+      return this.startDate
+        ? Date.parse(this.startDate) + 1000 * 60 * 24 < Date.parse(date)
+        : true;
     },
   },
 };

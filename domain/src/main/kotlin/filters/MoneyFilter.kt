@@ -6,9 +6,12 @@ import models.Journey
 
 class MoneyFilter : IFilter {
     override fun filter(journeys: List<Journey>, parameters: IParameters): List<Journey> {
-        return journeys
-            .onEach { journey ->
-                journey.hotels.filter { hotel -> hotel.price + journey.ticket.cost <= parameters.money }
-            }
+        return journeys.map { journey ->
+            Journey(
+                journey.city,
+                journey.tickets,
+                journey.hotels.filter { it.price <= parameters.money }
+            )
+        }
     }
 }
