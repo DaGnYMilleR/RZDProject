@@ -5,7 +5,7 @@
       <img class="close" src="../assets/close.png" alt="" @click="close" />
       <v-card-subtitle>Город: {{ journey.city.name }}</v-card-subtitle>
       <v-row class="content">
-        <v-col cols="4">
+        <v-col cols="4" class="flex justify-center" style="display: flex">
           <img class="city_image" :src="journey.city.imageUrl" alt="" />
         </v-col>
         <v-col cols="8">

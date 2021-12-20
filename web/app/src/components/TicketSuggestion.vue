@@ -7,13 +7,13 @@
       >
       <TicketSpan
         :city="cityFrom"
-        :date-range="travellingTime.fromPlace"
+        :date-range="travellingTime.toPlace"
         :url="urlFrom"
       />
       <v-spacer></v-spacer>
       <TicketSpan
         :city="cityTo"
-        :date-range="travellingTime.toPlace"
+        :date-range="travellingTime.fromPlace"
         :url="urlTo"
       />
     </v-card>

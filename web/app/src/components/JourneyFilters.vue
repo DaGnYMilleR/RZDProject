@@ -66,6 +66,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    cachedRequest: {
+      type: JourneyRequest,
+      default: () => new JourneyRequest(),
+    },
   },
   data() {
     return {
@@ -79,6 +83,15 @@ export default {
       error: "",
       hasError: false,
     };
+  },
+  mounted() {
+    if (this.cachedRequest) {
+      this.fromCityName = this.cachedRequest.cityName;
+      this.price = this.cachedRequest.budget;
+      this.startDate = this.cachedRequest.dateFrom;
+      this.endDate = this.cachedRequest.dateTo;
+      this.tags = this.cachedRequest.tags;
+    }
   },
   methods: {
     applyFilters() {

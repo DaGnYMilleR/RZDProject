@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-2">
+  <v-content class="pa-0">
     <v-card-title>Город отправления</v-card-title>
     <v-combobox
       v-model="cityName"
@@ -14,7 +14,7 @@
       item-color="blue"
       class="ml-3 mr-3"
     ></v-combobox>
-  </v-card>
+  </v-content>
 </template>
 
 <script>

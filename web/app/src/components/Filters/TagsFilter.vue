@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-2">
+  <v-content class="pa-0">
     <v-card-title>Теги</v-card-title>
     <v-combobox
       v-model="tagsModel"
@@ -19,7 +19,7 @@
         />
       </template>
     </v-combobox>
-  </v-card>
+  </v-content>
 </template>
 
 <script>

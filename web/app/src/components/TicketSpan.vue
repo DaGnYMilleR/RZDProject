@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-1 pa-1">
+  <div>
     <div class="pa-1">{{ city.name }}</div>
     <div class="pa-1">
       Отправление: <strong>{{ dateRange.start }}</strong>
@@ -10,7 +10,7 @@
     <a :href="url" style="text-decoration: none" class="pa-1">
       <v-btn>Купить билет</v-btn>
     </a>
-  </v-card>
+  </div>
 </template>
 
 <script>

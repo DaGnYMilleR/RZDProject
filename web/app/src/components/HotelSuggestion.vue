@@ -3,12 +3,14 @@
     <v-card>
       <v-row no-gutters>
         <v-col cols="4" align-self="center" align="center" class="pa-6">
-          <img :src="imageUrl" alt="" />
+          <img :src="imageUrl" alt="" style="height: 14vh" />
           <v-rating readonly :length="maxRating" :value="rating"></v-rating>
         </v-col>
         <v-col style="position: relative">
           <v-card-title>{{ name }}</v-card-title>
-          <v-card-text> Цена: {{ formatMoney(price) }} </v-card-text>
+          <v-card-text>
+            Цена за весь период: <strong>{{ formatMoney(price) }}</strong>
+          </v-card-text>
         </v-col>
       </v-row>
     </v-card>

@@ -1,11 +1,11 @@
 export class HotelImages {
   /**
-   * @param {Number} mainId
-   * @param {Number[]} extraIds
+   * @param {Number} mainImage
+   * @param {Number[]} extraImages
    */
-  constructor(mainId, extraIds) {
-    this.mainImgUrl = getImageUrl(mainId);
-    this.extraImgUrls = extraIds?.map(getImageUrl) ?? [];
+  constructor(mainImage, extraImages) {
+    this.mainImgUrl = getImageUrl(mainImage);
+    this.extraImgUrls = extraImages?.map(getImageUrl) ?? [];
   }
 }
 
@@ -14,7 +14,7 @@ function getImageUrl(hotelImageId) {
 }
 
 HotelImages.fromObject = (obj) => {
-  return new HotelImages(obj.mainId, obj.extraIds);
+  return new HotelImages(obj.mainImage, obj.extraImages);
 };
 
 HotelImages.Null = new HotelImages(1, []);

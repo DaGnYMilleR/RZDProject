@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-2">
+  <v-content class="pa-0">
     <v-card-title>{{ label }}</v-card-title>
     <v-menu
       v-model="menu2"
@@ -28,7 +28,7 @@
         @input="menu2 = false"
       ></v-date-picker>
     </v-menu>
-  </v-card>
+  </v-content>
 </template>
 
 <script>

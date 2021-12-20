@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-2">
+  <v-content class="pa-0">
     <v-card-title>Бюджет</v-card-title>
     <vuetify-money
       v-model="priceInput"
@@ -9,7 +9,7 @@
       color="blue"
       class="input"
     />
-  </v-card>
+  </v-content>
 </template>
 
 <script>
