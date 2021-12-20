@@ -4,14 +4,6 @@ import HttpService
 import models.hotel.HotelImages
 
 class HotelImageService(private val httpService: HttpService) : IHotelImageService {
-    override fun getImages(hotelId: Long): HotelImages? {
-        val url = "https://yasen.hotellook.com/photos/hotel_photos?id=${hotelId}"
-        val response = httpService.getResponse<HashMap<Long, List<Long>>>(url)!!
-        val imageIds = response[hotelId] ?: return null
-
-        return createHotelImages(imageIds)
-    }
-
     override fun getImages(hotelIds: List<Long>): Map<Long, HotelImages> {
         val baseUrl = "https://yasen.hotellook.com/photos/hotel_photos?id=${hotelIds.joinToString { it.toString() }}"
         val response = httpService.getResponse<HashMap<Long, List<Long>>>(baseUrl) ?: return emptyMap()
