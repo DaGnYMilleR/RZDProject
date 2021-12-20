@@ -37,7 +37,7 @@ class CityDao {
         val cityInfo = jsonObj[cityName] ?: throw IllegalArgumentException("City not found")
         val tags = cityInfo.jsonObject["Tags"]
         val terminals = cityInfo.jsonObject["Terminal"]
-        val photoUrl = cityInfo.jsonObject["url"].toString()
+        val photoUrl = cityInfo.jsonObject.getValue("url").jsonPrimitive.content
         val stationsId =
             terminals?.jsonObject?.values?.map { x -> "$x".substring(1, "$x".length - 1).toInt() }?.toList()
         return City(cityName, fromJsonObjectToTagList(tags?.jsonArray!!), stationsId!!, photoUrl)
