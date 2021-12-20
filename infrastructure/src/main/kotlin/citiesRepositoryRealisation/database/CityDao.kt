@@ -6,6 +6,11 @@ import models.City
 import models.Tag
 import java.io.File
 import java.io.InputStream
+import java.security.SecureRandom
+import java.util.ArrayList
+
+
+
 
 class CityDao {
     private val jsonObj: JsonObject
@@ -18,14 +23,18 @@ class CityDao {
     }
 
     fun getCitiesByTags(tags: List<Tag>, count: Int): List<City> {
+        if (tags.isEmpty())
+            return showUniqueRandomElements(getAllCities(), count)
         return getCitiesByTags(tags)
             .take(count)
     }
 
     fun getCitiesByTags(tags: List<Tag>): List<City> {
+        val tagsSet = tags.toSet()
         return getAllCities()
-            .sortedBy { city -> city.tags.toSet().intersect(tags.toSet()).count() }
+            .sortedBy { city -> city.tags.toSet().intersect(tagsSet).count() }
             .reversed()
+            .filter { city -> city.tags.any{ it in tagsSet } }
     }
 
     fun getAllCities(): List<City> {
@@ -41,6 +50,19 @@ class CityDao {
         val stationsId =
             terminals?.jsonObject?.values?.map { x -> "$x".substring(1, "$x".length - 1).toInt() }?.toList()
         return City(cityName, fromJsonObjectToTagList(tags?.jsonArray!!), stationsId!!, photoUrl)
+    }
+
+    private fun showUniqueRandomElements(source: List<City>, elementCount: Int): List<City> {
+        val random = SecureRandom()
+        val list = ArrayList(source)
+        val result = arrayListOf<City>();
+        for (i in 0 until elementCount) {
+            val randomIndex: Int = random.nextInt(list.size)
+            val randomElement = list[randomIndex]
+            result.add(randomElement)
+            list.removeAt(randomIndex)
+        }
+        return result
     }
 
     private fun fromJsonObjectToTagList(jsonArray: JsonArray): List<Tag> {

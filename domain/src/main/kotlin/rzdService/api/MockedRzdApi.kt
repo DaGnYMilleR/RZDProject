@@ -7,7 +7,7 @@ import models.TravellingTime
 import java.time.LocalDate
 
 class MockedRzdApi : IRzdApi {
-    override fun request(cityFrom: City, cityTo: City, journeyDuration: DateSegment): List<Ticket> {
+    override fun request(cityFrom: City, cityTo: City, journeyDuration: DateSegment, cost: Double): List<Ticket> {
         val time = LocalDate.now()
         val time2 = time.plusWeeks(3)
         return listOf(
