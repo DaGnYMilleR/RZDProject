@@ -478,7 +478,7 @@ export default {
       console.log(requestDto.toJson());
       this.cachedRequest = requestDto;
       try {
-        const path = process.env.VUE_APP_API + "/api/journeys/";
+        const path = process.env.VUE_APP_API + "api/journeys/";
         const response = await fetch(path, {
           method: "POST",
           body: requestDto.toJson(),
