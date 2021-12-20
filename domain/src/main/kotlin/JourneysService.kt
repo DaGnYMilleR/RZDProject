@@ -35,7 +35,7 @@ class JourneysService(
             return Journey(cityTo, tickets, listOf())
         val travellingCost = tickets.maxOf { it.cost }
         val date = getTimeOfStayInCity(tickets.first().travellingTime)
-        val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date, budget - 2 * travellingCost))
+        val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date, budget - travellingCost))
         return Journey(cityTo, tickets, hotels)
     }
 
