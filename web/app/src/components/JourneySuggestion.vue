@@ -52,11 +52,11 @@ export default {
   padding: 1vh;
   border-radius: 0.5em;
   margin: 1%;
-  box-shadow: 1px 1px 10px black;
+  box-shadow: 1px 1px 5px gray;
   transition: all 0.2s linear;
 
   &:hover {
-    box-shadow: 4px 4px 30px black;
+    box-shadow: 2px 2px 20px gray;
     transition: all 0.2s linear;
   }
   & img {

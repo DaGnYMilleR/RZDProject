@@ -1,5 +1,6 @@
 <template>
   <v-container fluid style="height: 100%">
+    <input id="nav-toggle" type="checkbox" value="false" hidden />
     <transition-group name="fade" duration="500">
       <JourneyModal
         v-if="isModalOpened()"
@@ -14,15 +15,29 @@
             <JourneySuggestions
               :suggestions="suggestions"
               @select="openModal"
+              @open-settings="openSettings"
             />
           </div>
           <div class="right">
-            <JourneyFilters
-              :tags-collection="tags"
-              :cities="cities"
-              :cached-request="cachedRequest"
-              @onrequest="requestApplyFilters"
-            />
+            <v-app-bar-nav-icon
+              class="v-size--x-large"
+              @click.stop="doShowSettings = !doShowSettings"
+            ></v-app-bar-nav-icon>
+            <v-navigation-drawer
+              v-model="doShowSettings"
+              absolute
+              bottom
+              right
+              temporary
+              style="width: 20%"
+            >
+              <JourneyFilters
+                :tags-collection="tags"
+                :cities="cities"
+                :cached-request="cachedRequest"
+                @onrequest="requestApplyFilters"
+              />
+            </v-navigation-drawer>
           </div>
         </div>
       </div>
@@ -41,333 +56,7 @@ export default {
   components: { JourneyModal, JourneySuggestions, JourneyFilters },
   data() {
     return {
-      suggestions: [
-        // JourneyResponse.fromObject({
-        //   city: {
-        //     name: "Пятигорск",
-        //     tags: [
-        //       { value: "минеральные воды" },
-        //       { value: "кавказ" },
-        //       { value: "красота" },
-        //       { value: "горы" },
-        //       { value: "живопись" },
-        //       { value: "есентуки" },
-        //     ],
-        //     stationsIds: [2064060],
-        //     imageUrl:
-        //       "https://www.study.ru/uploads/server/NkkQL85HhpDn6Xq0.jpg",
-        //   },
-        //   tickets: [
-        //     {
-        //       cityFrom: {
-        //         name: "Yekaterinburg",
-        //         tags: [],
-        //         stationsIds: [],
-        //       },
-        //       cityTo: {
-        //         name: "Sochi",
-        //         tags: [],
-        //         stationsIds: [],
-        //       },
-        //       cost: 1000,
-        //       travellingTime: {
-        //         toPlace: {
-        //           start: "2021-12-12",
-        //           end: "2021-12-13",
-        //         },
-        //         fromPlace: {
-        //           start: "2021-12-30",
-        //           end: "2021-12-31",
-        //         },
-        //       },
-        //       urlTo: "ASDASDA",
-        //       urlFrom: "ASDSADA",
-        //     },
-        //     {
-        //       cityFrom: {
-        //         name: "Yekaterinburg",
-        //         tags: [],
-        //         stationsIds: [],
-        //       },
-        //       cityTo: {
-        //         name: "Sochi",
-        //         tags: [],
-        //         stationsIds: [],
-        //       },
-        //       cost: 1000,
-        //       travellingTime: {
-        //         toPlace: {
-        //           start: "2021-12-12",
-        //           end: "2021-12-13",
-        //         },
-        //         fromPlace: {
-        //           start: "2021-12-30",
-        //           end: "2021-12-31",
-        //         },
-        //       },
-        //       urlTo: "ASDASDA",
-        //       urlFrom: "ASDSADA",
-        //     },
-        //   ],
-        //   hotels: [
-        //     {
-        //       id: 1406953704,
-        //       name: "Guest House Pragma",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 52274.15,
-        //       rating: 5,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 1224984043,
-        //       name: "Hotel Kristella",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 67150,
-        //       rating: 4,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 611050,
-        //       name: "Bristol Spa-Hotel",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 436644.99,
-        //       rating: 4,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 543356,
-        //       name: "Zateryanny Ray u Mashuka",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 42500,
-        //       rating: 3,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 9192717,
-        //       name: "Гостевой дом Респект",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 37400,
-        //       rating: 2,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //   ],
-        // }),
-        // JourneyResponse.fromObject({
-        //   city: {
-        //     name: "Пятигорск",
-        //     tags: [
-        //       { value: "минеральные воды" },
-        //       { value: "кавказ" },
-        //       { value: "красота" },
-        //       { value: "горы" },
-        //       { value: "живопись" },
-        //       { value: "есентуки" },
-        //     ],
-        //     stationsIds: [2064060],
-        //     imageUrl:
-        //       "https://www.study.ru/uploads/server/NkkQL85HhpDn6Xq0.jpg",
-        //   },
-        //   tickets: [
-        //     {
-        //       cityFrom: {
-        //         name: "Yekaterinburg",
-        //         tags: [],
-        //         stationsIds: [],
-        //       },
-        //       cityTo: {
-        //         name: "Sochi",
-        //         tags: [],
-        //         stationsIds: [],
-        //       },
-        //       cost: 1000,
-        //       travellingTime: {
-        //         toPlace: {
-        //           start: "2021-12-12",
-        //           end: "2021-12-13",
-        //         },
-        //         fromPlace: {
-        //           start: "2021-12-30",
-        //           end: "2021-12-31",
-        //         },
-        //       },
-        //       urlTo: "",
-        //       urlFrom: "",
-        //     },
-        //   ],
-        //   hotels: [
-        //     {
-        //       id: 1406953704,
-        //       name: "Guest House Pragma",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 52274.15,
-        //       rating: 5,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 1224984043,
-        //       name: "Hotel Kristella",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 67150,
-        //       rating: 4,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 611050,
-        //       name: "Bristol Spa-Hotel",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 436644.99,
-        //       rating: 4,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 543356,
-        //       name: "Zateryanny Ray u Mashuka",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 42500,
-        //       rating: 3,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 9192717,
-        //       name: "Гостевой дом Респект",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 37400,
-        //       rating: 2,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //   ],
-        // }),
-        // JourneyResponse.fromObject({
-        //   city: {
-        //     name: "Пятигорск",
-        //     tags: [
-        //       { value: "минеральные воды" },
-        //       { value: "кавказ" },
-        //       { value: "красота" },
-        //       { value: "горы" },
-        //       { value: "живопись" },
-        //       { value: "есентуки" },
-        //     ],
-        //     stationsIds: [2064060],
-        //     imageUrl:
-        //       "https://www.study.ru/uploads/server/NkkQL85HhpDn6Xq0.jpg",
-        //   },
-        //   tickets: [
-        //     {
-        //       cityFrom: {
-        //         name: "Yekaterinburg",
-        //         tags: [],
-        //         stationsIds: [],
-        //       },
-        //       cityTo: {
-        //         name: "Sochi",
-        //         tags: [],
-        //         stationsIds: [],
-        //       },
-        //       cost: 1000,
-        //       travellingTime: {
-        //         toPlace: {
-        //           start: "2021-12-12",
-        //           end: "2021-12-13",
-        //         },
-        //         fromPlace: {
-        //           start: "2021-12-30",
-        //           end: "2021-12-31",
-        //         },
-        //       },
-        //       urlTo: "",
-        //       urlFrom: "",
-        //     },
-        //   ],
-        //   hotels: [
-        //     {
-        //       id: 1406953704,
-        //       name: "Guest House Pragma",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 52274.15,
-        //       rating: 5,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 1224984043,
-        //       name: "Hotel Kristella",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 67150,
-        //       rating: 4,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 611050,
-        //       name: "Bristol Spa-Hotel",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 436644.99,
-        //       rating: 4,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 543356,
-        //       name: "Zateryanny Ray u Mashuka",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 42500,
-        //       rating: 3,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //     {
-        //       id: 9192717,
-        //       name: "Гостевой дом Респект",
-        //       address: { lon: 43.0594, lat: 44.0486 },
-        //       price: 37400,
-        //       rating: 2,
-        //       images: {
-        //         mainId: 1,
-        //         extraIds: [],
-        //       },
-        //     },
-        //   ],
-        // }),
-      ],
+      suggestions: [],
       tags: [
         { id: 1, name: "амур" },
         { id: 2, name: "архитектура" },
@@ -470,15 +159,14 @@ export default {
       ],
       selectedJourney: null,
       cachedRequest: null,
+      doShowSettings: false,
     };
   },
   methods: {
-
     async requestApplyFilters(requestDto) {
-      console.log(requestDto.toJson());
       this.cachedRequest = requestDto;
       try {
-        const path = process.env.VUE_APP_API + "api/journeys/";
+        const path = process.env.VUE_APP_API + "/api/journeys/";
         const response = await fetch(path, {
           method: "POST",
           body: requestDto.toJson(),
@@ -486,6 +174,7 @@ export default {
             "content-type": "application/json",
           },
         });
+        this.doShowSettings = false;
         if (response.status === 200) {
           const text = await response.text();
           this.suggestions = JSON.parse(text).map(JourneyResponse.fromObject);
@@ -508,6 +197,14 @@ export default {
 
     isModalOpened() {
       return this.selectedJourney !== null;
+    },
+
+    openSettings() {
+      this.doShowSettings = true;
+    },
+
+    isSettingsOpened() {
+      return this.doShowSettings;
     },
   },
 };
@@ -538,13 +235,13 @@ export default {
 
 .left {
   margin-right: 1%;
-  flex-grow: 2;
+  flex-grow: 20;
 }
 
 .right {
-  background: cornflowerblue;
   flex-grow: 1;
-  width: 9vmax;
-  height: fit-content;
+  background: cornflowerblue;
+  width: 1.7vmax;
+  height: 5vh;
 }
 </style>

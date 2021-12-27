@@ -1,36 +1,34 @@
 <template>
   <div class="wrapper">
-    <v-card>
-      <v-card-title class="justify-center">Настройки</v-card-title>
-      <CitiesFilter
-        v-model="fromCityName"
-        :cities="cities"
-        label="Город отправления"
-      ></CitiesFilter>
-      <PriceFilter v-model="price"></PriceFilter>
-      <DateFilter
-        v-model="startDate"
-        label="Дата отправления"
-        :allowed-dates="canStart"
-      ></DateFilter>
-      <DateFilter
-        v-model="endDate"
-        label="Дата возвращения"
-        :allowed-dates="canEnd"
-      ></DateFilter>
-      <TagsFilter
-        v-model="tags"
-        :tags-collection="tagsCollection.map((t) => t.name)"
-      ></TagsFilter>
-      <v-btn
-        style="margin: 2%"
-        min-width="96%"
-        color="blue"
-        @click="applyFilters()"
-      >
-        Принять
-      </v-btn>
-    </v-card>
+    <v-card-title class="justify-center">Настройки</v-card-title>
+    <CitiesFilter
+      v-model="fromCityName"
+      :cities="cities"
+      label="Город отправления"
+    ></CitiesFilter>
+    <PriceFilter v-model="price"></PriceFilter>
+    <DateFilter
+      v-model="startDate"
+      label="Дата отправления"
+      :allowed-dates="canStart"
+    ></DateFilter>
+    <DateFilter
+      v-model="endDate"
+      label="Дата возвращения"
+      :allowed-dates="canEnd"
+    ></DateFilter>
+    <TagsFilter
+      v-model="tags"
+      :tags-collection="tagsCollection.map((t) => t.name)"
+    ></TagsFilter>
+    <v-btn
+      style="margin: 2%"
+      min-width="96%"
+      color="blue"
+      @click="applyFilters()"
+    >
+      Принять
+    </v-btn>
 
     <v-snackbar v-model="hasError" :timeout="timeout">
       {{ error }}
@@ -140,9 +138,7 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
-  background: #39b54a;
   .header {
-    background: brown;
     padding: 0.3vmax;
   }
   .tags {
@@ -150,11 +146,9 @@ export default {
     flex-direction: row;
     justify-content: space-evenly;
     .tag {
-      background: green;
       display: flex;
       width: fit-content;
       &.active {
-        background: blue;
       }
     }
   }

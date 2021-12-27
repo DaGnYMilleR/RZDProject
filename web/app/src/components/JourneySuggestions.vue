@@ -13,6 +13,9 @@
         <v-card-title class="justify-center pa-8">
           Предложения не найдены. Попробуйте изменить запрос.
         </v-card-title>
+        <div class="justify-center align-self-center" style="display: flex">
+          <v-btn @click="openSettings()">Найти предложения</v-btn>
+        </div>
       </div>
     </v-card>
   </div>
@@ -43,6 +46,10 @@ export default {
 
     select(suggestion) {
       this.$emit("select", suggestion);
+    },
+
+    openSettings() {
+      this.$emit("open-settings");
     },
   },
 };
