@@ -10,15 +10,17 @@ import hotelService.HotelService
 import hotelService.IHotelService
 import hotelService.api.HotelApi
 import hotelService.api.IHotelApi
-import hotelService.imageService.IHotelImageService
+import hotelService.api.MockedHotelApi
 import hotelService.imageService.HotelImageService
-import models.Tag
+import hotelService.imageService.MockedHotelImageService
+import hotelService.imageService.IHotelImageService
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import rzdService.IRzdService
 import rzdService.RzdService
 import rzdService.api.IRzdApi
+import rzdService.api.MockedRzdApi
 import rzdService.api.RzdApi
 import rzdService.parser.IRzdResponseParser
 import rzdService.parser.RzdResponseParser
@@ -29,23 +31,25 @@ fun main(args: Array<String>) {
 
 @SpringBootApplication
 class RZDApplication{
+    fun isDevelopment() = false
+
     @Bean
     fun httpService(): HttpService = HttpService()
 
     @Bean
-    fun hotelApi(): IHotelApi = HotelApi(httpService())
+    fun hotelApi(): IHotelApi = if (isDevelopment()) MockedHotelApi() else HotelApi(httpService())
 
     @Bean
     fun hotelService(): IHotelService = HotelService(hotelApi(), hotelImageService())
 
     @Bean
-    fun hotelImageService(): IHotelImageService = HotelImageService(httpService())
+    fun hotelImageService(): IHotelImageService = if (isDevelopment()) MockedHotelImageService() else HotelImageService(httpService())
 
     @Bean
     fun cities() : ICitiesRepository = CitiesRepository(CityDao())
 
     @Bean
-    fun rzdApi() : IRzdApi = RzdApi(httpService())
+    fun rzdApi() : IRzdApi = if (isDevelopment()) MockedRzdApi() else RzdApi(httpService())
 
     @Bean
     fun rzdResponseParser() : IRzdResponseParser = RzdResponseParser()
