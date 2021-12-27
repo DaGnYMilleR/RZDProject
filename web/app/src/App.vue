@@ -19,7 +19,6 @@
         <router-view />
       </transition>
     </v-main>
-    <v-footer app>Футер</v-footer>
   </v-app>
 </template>
 
