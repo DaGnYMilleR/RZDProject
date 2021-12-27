@@ -6,11 +6,31 @@
         <div class="header">Выбор путешествия</div>
         <div class="content">
           <div class="left">
-            <JourneySuggestions
-              :suggestions="suggestions"
-              @select="openModal"
-              @open-settings="openSettings"
-            />
+            <transition name="fade" mode="in-out">
+              <v-progress-circular
+                v-if="isLoading"
+                key="loading"
+                class="justify-center align-self-center"
+                style="
+                  display: flex;
+                  width: 100%;
+                  height: 10%;
+                  top: 40%;
+                  z-index: 10;
+                  position: absolute;
+                "
+                size="50"
+                color="blue"
+                indeterminate
+              ></v-progress-circular>
+              <JourneySuggestions
+                v-else
+                key="content"
+                :suggestions="suggestions"
+                @select="openModal"
+                @open-settings="openSettings"
+              />
+            </transition>
           </div>
           <div class="right">
             <v-app-bar-nav-icon
@@ -43,7 +63,7 @@
 import JourneyFilters from "../components/JourneyFilters";
 import JourneySuggestions from "../components/JourneySuggestions";
 import { JourneyResponse } from "../models/response/JourneyResponse";
-import { store } from "../store";
+import store from "../store";
 import { SET_JOURNEY, SET_SUGGESTIONS } from "../store/mutations-types";
 
 export default {
@@ -153,6 +173,7 @@ export default {
       ],
       cachedRequest: null,
       doShowSettings: false,
+      isLoading: true,
       store,
     };
   },
@@ -164,7 +185,10 @@ export default {
   methods: {
     async requestApplyFilters(requestDto) {
       this.cachedRequest = requestDto;
+      let suggestions = [];
       try {
+        this.doShowSettings = false;
+        this.isLoading = true;
         const path = process.env.VUE_APP_API + "/api/journeys/";
         const response = await fetch(path, {
           method: "POST",
@@ -173,16 +197,17 @@ export default {
             "content-type": "application/json",
           },
         });
-        this.doShowSettings = false;
         if (response.status === 200) {
           const text = await response.text();
-          const suggestions = JSON.parse(text).map(JourneyResponse.fromObject);
-          this.$store.commit(SET_SUGGESTIONS, suggestions);
+          suggestions = JSON.parse(text).map(JourneyResponse.fromObject);
         } else {
           console.log(response.json());
         }
       } catch (e) {
         console.log(e.message);
+      } finally {
+        this.$store.commit(SET_SUGGESTIONS, suggestions);
+        this.isLoading = false;
       }
     },
 
