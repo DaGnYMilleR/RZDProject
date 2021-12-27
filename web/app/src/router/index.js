@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import JourneyModal from "../views/JourneyModal";
 import MainPage from "../views/MainPage";
 import SearchJourneys from "../views/SearchJourneys";
 
@@ -15,6 +16,12 @@ const routes = [
     path: "/journeys",
     name: "SearchJourneys",
     component: SearchJourneys,
+  },
+  {
+    path: "/journey",
+    name: "JourneyModal",
+    component: JourneyModal,
+    props: (route) => ({ ...route.params }),
   },
 ];
 

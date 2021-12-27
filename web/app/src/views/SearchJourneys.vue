@@ -1,14 +1,8 @@
 <template>
   <v-container fluid style="height: 100%">
     <input id="nav-toggle" type="checkbox" value="false" hidden />
-    <transition-group name="fade" duration="500">
-      <JourneyModal
-        v-if="isModalOpened()"
-        key="modal"
-        :journey="selectedJourney"
-        @close="closeModal"
-      />
-      <div v-else key="content" class="home">
+    <transition name="fade" duration="500">
+      <div key="content" class="home">
         <div class="header">Выбор путешествия</div>
         <div class="content">
           <div class="left">
@@ -41,19 +35,18 @@
           </div>
         </div>
       </div>
-    </transition-group>
+    </transition>
   </v-container>
 </template>
 
 <script>
 import JourneyFilters from "../components/JourneyFilters";
-import JourneyModal from "../components/JourneyModal";
 import JourneySuggestions from "../components/JourneySuggestions";
 import { JourneyResponse } from "../models/response/JourneyResponse";
 
 export default {
   name: "SearchJourneys",
-  components: { JourneyModal, JourneySuggestions, JourneyFilters },
+  components: { JourneySuggestions, JourneyFilters },
   data() {
     return {
       suggestions: [],
@@ -157,7 +150,6 @@ export default {
         { id: 36, name: "Хабаровск" },
         { id: 37, name: "Ярославль" },
       ],
-      selectedJourney: null,
       cachedRequest: null,
       doShowSettings: false,
     };
@@ -188,15 +180,10 @@ export default {
     },
 
     openModal(journey) {
-      this.selectedJourney = journey;
-    },
-
-    closeModal() {
-      this.selectedJourney = null;
-    },
-
-    isModalOpened() {
-      return this.selectedJourney !== null;
+      this.$router.push({
+        name: "JourneyModal",
+        params: { journey },
+      });
     },
 
     openSettings() {
