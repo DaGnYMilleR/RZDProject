@@ -2,18 +2,18 @@
   <div class="wrapper">
     <v-card-title class="justify-center">Настройки</v-card-title>
     <CitiesFilter
-      v-model="fromCityName"
+      v-model="cityName"
       :cities="cities"
       label="Город отправления"
     ></CitiesFilter>
-    <PriceFilter v-model="price"></PriceFilter>
+    <PriceFilter v-model="budget"></PriceFilter>
     <DateFilter
-      v-model="startDate"
+      v-model="dateFrom"
       label="Дата отправления"
       :allowed-dates="canStart"
     ></DateFilter>
     <DateFilter
-      v-model="endDate"
+      v-model="dateTo"
       label="Дата возвращения"
       :allowed-dates="canEnd"
     ></DateFilter>
@@ -43,14 +43,12 @@
 
 <script>
 import { JourneyRequest } from "../models/request/JourneyRequest";
+import { store } from "../store";
+import { SET_JOURNEY_FILTERS } from "../store/mutations-types";
 import CitiesFilter from "./Filters/CitiesFilter";
 import DateFilter from "./Filters/DateFilter";
 import PriceFilter from "./Filters/PriceFilter";
 import TagsFilter from "./Filters/TagsFilter";
-
-function transformToLocalDate(dateStr) {
-  return dateStr;
-}
 
 export default {
   name: "JourneyFilters",
@@ -64,56 +62,45 @@ export default {
       type: Array,
       default: () => [],
     },
-    cachedRequest: {
-      type: JourneyRequest,
-      default: () => new JourneyRequest(),
-    },
   },
   data() {
     return {
-      fromCityName: undefined,
-      price: undefined,
-      startDate: undefined,
-      endDate: undefined,
+      cityName: undefined,
+      budget: undefined,
+      dateFrom: undefined,
+      dateTo: undefined,
       tags: [],
 
       timeout: 3000,
       error: "",
       hasError: false,
+      store,
     };
-  },
-  mounted() {
-    if (this.cachedRequest) {
-      this.fromCityName = this.cachedRequest.cityName;
-      this.price = this.cachedRequest.budget;
-      this.startDate = this.cachedRequest.dateFrom;
-      this.endDate = this.cachedRequest.dateTo;
-      this.tags = this.cachedRequest.tags;
-    }
   },
   methods: {
     applyFilters() {
-      if (this.fromCityName === undefined) {
+      if (this.cityName === undefined) {
         this.setError("Вы не указали город");
-      } else if (this.price === undefined) {
+      } else if (this.budget === undefined) {
         this.setError("Вы не указали бюджет");
-      } else if (this.startDate === undefined) {
+      } else if (this.dateFrom === undefined) {
         this.setError("Вы не указали дату отправления");
-      } else if (this.endDate === undefined) {
+      } else if (this.dateTo === undefined) {
         this.setError("Вы не указали дату вовзращения");
-      } else if (this.price <= 0) {
+      } else if (this.budget <= 0) {
         this.setError("Цена должна быть больше 0");
-      } else if (Date.parse(this.startDate) > Date.parse(this.endDate)) {
+      } else if (Date.parse(this.dateFrom) > Date.parse(this.dateTo)) {
         this.setError("Дата отправления должна быть раньше даты возвращения");
-      } else if (Date.now() > Date.parse(this.startDate)) {
+      } else if (Date.now() > Date.parse(this.dateFrom)) {
         this.setError("Дата отправления должна быть не раньше текущей даты");
       } else {
         const request = new JourneyRequest();
-        request.cityName = this.fromCityName;
-        request.budget = this.price;
-        request.dateFrom = transformToLocalDate(this.startDate);
-        request.dateTo = transformToLocalDate(this.endDate);
+        request.cityName = this.cityName;
+        request.budget = this.budget;
+        request.dateFrom = this.dateFrom;
+        request.dateTo = this.dateTo;
         request.tags = this.tags;
+        this.$store.commit(SET_JOURNEY_FILTERS, request);
         this.$emit("onrequest", request);
       }
     },
@@ -123,13 +110,21 @@ export default {
       this.hasError = true;
     },
 
+    setFilters(filters) {
+      this.cityName = filters.cityName;
+      this.budget = filters.budget;
+      this.dateFrom = filters.dateFrom;
+      this.dateTo = filters.dateTo;
+      this.tags = filters.tags;
+    },
+
     canStart(date) {
       return Date.parse(date) > Date.now();
     },
 
     canEnd(date) {
-      return this.startDate
-        ? Date.parse(this.startDate) + 1000 * 60 * 24 < Date.parse(date)
+      return this.dateFrom
+        ? Date.parse(this.dateFrom) + 1000 * 60 * 24 < Date.parse(date)
         : true;
     },
   },

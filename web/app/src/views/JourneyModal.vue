@@ -42,9 +42,11 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import { JourneyResponse } from "../models/response/JourneyResponse";
 import HotelSuggestion from "../components/HotelSuggestion";
 import TicketSuggestion from "../components/TicketSuggestion";
+import { store } from "../store";
 
 const items = [
   { id: 1, name: "Билеты" },
@@ -53,16 +55,19 @@ const items = [
 export default {
   name: "JourneyModal",
   components: { TicketSuggestion, HotelSuggestion },
-  props: {
-    journey: {
-      type: JourneyResponse,
-      default: () => JourneyResponse.Null,
-    },
-  },
   data: () => ({
     tab: 0,
     items,
+    store,
   }),
+  computed: {
+    /**
+     * @return {JourneyResponse}
+     */
+    journey() {
+      return this.$store.state.selectedJourney;
+    },
+  },
   methods: {
     close() {
       this.$emit("close");

@@ -26,9 +26,9 @@
               style="width: 20%"
             >
               <JourneyFilters
+                ref="settings"
                 :tags-collection="tags"
                 :cities="cities"
-                :cached-request="cachedRequest"
                 @onrequest="requestApplyFilters"
               />
             </v-navigation-drawer>
@@ -43,13 +43,14 @@
 import JourneyFilters from "../components/JourneyFilters";
 import JourneySuggestions from "../components/JourneySuggestions";
 import { JourneyResponse } from "../models/response/JourneyResponse";
+import { store } from "../store";
+import { SET_JOURNEY, SET_SUGGESTIONS } from "../store/mutations-types";
 
 export default {
   name: "SearchJourneys",
   components: { JourneySuggestions, JourneyFilters },
   data() {
     return {
-      suggestions: [],
       tags: [
         { id: 1, name: "амур" },
         { id: 2, name: "архитектура" },
@@ -152,7 +153,13 @@ export default {
       ],
       cachedRequest: null,
       doShowSettings: false,
+      store,
     };
+  },
+  computed: {
+    suggestions() {
+      return this.$store.state.suggestions;
+    },
   },
   methods: {
     async requestApplyFilters(requestDto) {
@@ -169,8 +176,8 @@ export default {
         this.doShowSettings = false;
         if (response.status === 200) {
           const text = await response.text();
-          this.suggestions = JSON.parse(text).map(JourneyResponse.fromObject);
-          console.log(this.suggestions);
+          const suggestions = JSON.parse(text).map(JourneyResponse.fromObject);
+          this.$store.commit(SET_SUGGESTIONS, suggestions);
         } else {
           console.log(response.json());
         }
@@ -180,14 +187,13 @@ export default {
     },
 
     openModal(journey) {
-      this.$router.push({
-        name: "JourneyModal",
-        params: { journey },
-      });
+      this.$store.commit(SET_JOURNEY, journey);
+      this.$router.push({ path: "/journey" });
     },
 
     openSettings() {
       this.doShowSettings = true;
+      this.$refs?.settings?.setFilters(this.$store.state.journeyFilters);
     },
 
     isSettingsOpened() {
