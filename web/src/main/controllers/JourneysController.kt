@@ -3,7 +3,6 @@ package main.controllers
 import JourneysService
 import Parameters
 import main.models.JourneyParametersRequestQuery
-import models.City
 import models.DateSegment
 import models.Journey
 import models.Tag
