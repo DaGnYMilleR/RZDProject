@@ -1,7 +1,13 @@
 <template>
   <v-app>
     <v-app-bar app color="white" dark>
-      <div class="d-flex align-center" style="color: red">РЖД проект</div>
+      <div
+        class="d-flex align-center rzd-header"
+        style="color: red"
+        @click="openMainPage()"
+      >
+        РЖД проект
+      </div>
 
       <v-spacer></v-spacer>
 
@@ -29,6 +35,11 @@ export default {
   data: () => ({
     //
   }),
+  methods: {
+    openMainPage() {
+      this.$router.push({ path: "/" });
+    },
+  },
 };
 </script>
 
@@ -36,5 +47,9 @@ export default {
 @import "./assets/css/Transition";
 *::-webkit-scrollbar {
   width: 0;
+}
+
+.rzd-header:hover {
+  cursor: pointer;
 }
 </style>
