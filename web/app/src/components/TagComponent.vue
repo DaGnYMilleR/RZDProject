@@ -36,8 +36,8 @@ export default {
       default: false,
     },
     attrs: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => {},
     },
   },
   methods: {

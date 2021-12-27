@@ -7,7 +7,7 @@
     <div class="pa-1">
       Прибытие: <strong>{{ dateRange.end }}</strong>
     </div>
-    <a :href="url" style="text-decoration: none" class="pa-1">
+    <a :href="url" target="_blank" style="text-decoration: none" class="pa-1">
       <v-btn>Купить билет</v-btn>
     </a>
   </div>
