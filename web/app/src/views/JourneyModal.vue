@@ -46,7 +46,7 @@
 import { JourneyResponse } from "../models/response/JourneyResponse";
 import HotelSuggestion from "../components/HotelSuggestion";
 import TicketSuggestion from "../components/TicketSuggestion";
-import { store } from "../store";
+import store from "../store";
 
 const items = [
   { id: 1, name: "Билеты" },

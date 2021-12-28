@@ -43,7 +43,7 @@
 
 <script>
 import { JourneyRequest } from "../models/request/JourneyRequest";
-import { store } from "../store";
+import store from "../store";
 import { SET_JOURNEY_FILTERS } from "../store/mutations-types";
 import CitiesFilter from "./Filters/CitiesFilter";
 import DateFilter from "./Filters/DateFilter";

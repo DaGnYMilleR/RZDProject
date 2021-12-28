@@ -173,7 +173,7 @@ export default {
       ],
       cachedRequest: null,
       doShowSettings: false,
-      isLoading: true,
+      isLoading: false,
       store,
     };
   },
