@@ -40,7 +40,6 @@ class RzdApi(private val httpService: HttpService) : IRzdApi1 {
 
             val priceTravelFrom = ticketsFrom.map { it.categories.first().price }.maxOf { it }
             val priceTravelTo = ticketsTo.map { it.categories.first().price }.maxOf { it }
-            println("$priceTravelFrom $priceTravelTo")
             if (priceTravelFrom + priceTravelTo < cost) {
                 return createListTickets(
                     ticketsTo, ticketsFrom, cityTo, cityFrom,
