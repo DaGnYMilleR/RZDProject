@@ -258,7 +258,6 @@ export default {
 
 .right {
   flex-grow: 1;
-  background: cornflowerblue;
   width: 1.7vmax;
   height: 5vh;
 }
