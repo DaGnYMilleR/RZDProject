@@ -1,9 +1,9 @@
 package filters
 
-import IParameters
+import Parameters
 import models.Journey
 
 
 interface IFilter {
-    fun filter(journeys: List<Journey>, parameters: IParameters): List<Journey>
+    fun filter(journeys: List<Journey>, parameters: Parameters): List<Journey>
 }

@@ -4,8 +4,9 @@ import java.time.LocalDate
 
 data class JourneyParametersRequestQuery(
     val cityName: String,
-    val budget: Double,
+    val trainsBudget: Double,
     val dateFrom: LocalDate,
     val dateTo: LocalDate,
-    val tags: List<String>
+    val tags: List<String>,
+    val hotelsBudget: Double?,
 )

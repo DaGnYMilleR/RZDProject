@@ -19,9 +19,7 @@ class JourneysController @Autowired constructor(val journeysService: JourneysSer
     fun journeys(@RequestBody query: JourneyParametersRequestQuery): List<Journey> {
         val tags = query.tags.map { Tag(it) }
         val journeyDuration = DateSegment(query.dateFrom, query.dateTo)
-        val parameters = Parameters(query.cityName, query.budget, tags, journeyDuration)
+        val parameters = Parameters(query.cityName, query.trainsBudget, tags, journeyDuration, query.hotelsBudget)
         return journeysService.getJourneys(parameters)
     }
 }
-
-

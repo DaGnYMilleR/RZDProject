@@ -16,14 +16,14 @@ class JourneysService(
     private val hotelService: IHotelService,
     private val compositeFilter: ICompositeFilter
 ) {
-    fun getJourneys(parameters: IParameters): List<Journey> {
+    fun getJourneys(parameters: Parameters): List<Journey> {
         val currentCity = citiesRepository.getCityByName(parameters.cityName)
         val availableCities = citiesRepository
             .getCitiesByTags(parameters.tags, 5)
             .minusElement(currentCity)
 
         val journeys = availableCities.parallelStream()
-            .map { createJourney(currentCity, it, parameters.journeyDuration, parameters.money) }
+            .map { createJourney(currentCity, it, parameters.journeyDuration, parameters.trainsBudget) }
             .toList()
 
         return compositeFilter.filter(journeys, parameters)
