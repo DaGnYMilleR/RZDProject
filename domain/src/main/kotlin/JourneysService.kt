@@ -23,19 +23,23 @@ class JourneysService(
             .minusElement(currentCity)
 
         val journeys = availableCities.parallelStream()
-            .map { createJourney(currentCity, it, parameters.journeyDuration, parameters.trainsBudget) }
+            .map { createJourney(currentCity, it, parameters.journeyDuration, parameters.trainsBudget, parameters.hotelsBudget) }
             .toList()
 
         return compositeFilter.filter(journeys, parameters)
     }
 
-    private fun createJourney(cityFrom: City, cityTo: City, journeyDuration: DateSegment, budget: Double): Journey  {
-        val tickets = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration, budget))
+    private fun createJourney(cityFrom: City,
+                              cityTo: City,
+                              journeyDuration: DateSegment,
+                              trainsBudget: Double,
+                              hotelsBudget: Double?): Journey  {
+        val tickets = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration, trainsBudget))
         if (tickets.isEmpty())
             return Journey(cityTo, tickets, listOf())
-        val travellingCost = tickets.maxOf { it.cost }
-        val date = getTimeOfStayInCity(tickets.first().travellingTime)
-        val hotels = hotelService.getHotels(HotelServiceParams(cityTo, date, budget - travellingCost))
+        val beingInCityTime = getTimeOfStayInCity(tickets.first().travellingTime)
+        val hotels = if(hotelsBudget != null)
+            hotelService.getHotels(HotelServiceParams(cityTo, beingInCityTime, hotelsBudget)) else listOf()
         return Journey(cityTo, tickets, hotels)
     }
 
