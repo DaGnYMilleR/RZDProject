@@ -58,7 +58,7 @@ class RZDApplication{
     fun rzd() : IRzdService = RzdService(rzdApi(), rzdResponseParser())
 
     @Bean
-    fun filter() : List<IFilter> = listOf(BadJourneyFilter(), MoneyFilter(), PlaceFilter())
+    fun filter() : List<IFilter> = listOf(BadJourneyFilter(), PlaceFilter())
 
     @Bean
     fun compositeFilter() : ICompositeFilter = CompositeFilter(filter())
