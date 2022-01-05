@@ -38,7 +38,7 @@ class JourneysService(
         if (tickets.isEmpty())
             return Journey(cityTo, tickets, listOf())
         val beingInCityTime = getTimeOfStayInCity(tickets.first().travellingTime)
-        val hotels = if(hotelsBudget != null)
+        val hotels = if(hotelsBudget != null && hotelsBudget != .0)
             hotelService.getHotels(HotelServiceParams(cityTo, beingInCityTime, hotelsBudget)) else listOf()
         return Journey(cityTo, tickets, hotels)
     }
