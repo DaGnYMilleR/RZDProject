@@ -1,5 +1,6 @@
 package main.models
 
+import rzdService.TrainCarType
 import java.time.LocalDate
 
 data class JourneyParametersRequestQuery(
@@ -9,4 +10,5 @@ data class JourneyParametersRequestQuery(
     val dateTo: LocalDate,
     val tags: List<String>,
     val hotelsBudget: Double?,
+    val typeOfTrainCar: TrainCarType,
 )

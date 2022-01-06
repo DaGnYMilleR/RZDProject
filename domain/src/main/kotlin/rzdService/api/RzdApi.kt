@@ -5,36 +5,42 @@ import models.City
 import models.DateSegment
 import models.Ticket
 import models.TravellingTime
+import rzdService.TrainCarType
 import java.time.LocalDate
 import rzdService.api.IRzdApi as IRzdApi1
 
 class RzdApi(private val httpService: HttpService) : IRzdApi1 {
-    override fun request(cityFrom: City, cityTo: City, journeyDuration: DateSegment, cost: Double): List<Ticket> {
+    override fun makeRequest(cityFrom: City, cityTo: City, journeyDuration: DateSegment,
+                             cost: Double, typeofTrainCar: TrainCarType): List<Ticket> {
         val dayStartTraveling = journeyDuration.start
         val dayEndTraveling = journeyDuration.end
         for (idFrom in cityFrom.stationsId){
             for (idTo in cityTo.stationsId){
-                val ticketsTo = getResponse(idFrom, idTo, dayStartTraveling).filter { isPlazcard(it) }
+                val ticketsTo = getResponse(idFrom, idTo, dayStartTraveling).filter { areTypesEquals(it, typeofTrainCar) }
                 if (isTicketValid(ticketsTo)) {
-                    val listTickets = getTickets(ticketsTo, idTo, idFrom, dayStartTraveling, dayEndTraveling, cityFrom, cityTo, cost)
+                    val listTickets = getTickets(ticketsTo, idTo, idFrom, dayStartTraveling,
+                        dayEndTraveling, cityFrom, cityTo, cost, typeofTrainCar)
                     if (listTickets.isNotEmpty())
                         return listTickets
                 }
             }
         }
-        return listOf<Ticket>()
+        return listOf()
     }
 
     private fun isTicketValid(ticket: List<Trip>?): Boolean = (ticket != null) && ticket.isNotEmpty()
 
-    private fun isPlazcard(trip: Trip): Boolean = trip.categories.first().type == "plazcard"
+    private fun areTypesEquals(trip: Trip, tt: TrainCarType) :Boolean{
+        return trip.categories.any { it.type == tt.toString().lowercase() }
+    }
 
     private fun getTickets(ticketsTo: List<Trip>, idTo: Int, idFrom: Int, dayStartTraveling: LocalDate,
-                           dayEndTraveling: LocalDate, cityFrom: City, cityTo: City, cost: Double): List<Ticket> {
+                           dayEndTraveling: LocalDate, cityFrom: City, cityTo: City,
+                           cost: Double, typeofTrainCar: TrainCarType): List<Ticket> {
         val timeTraveling = getCountDaysTravel(ticketsTo.first().travelTimeInSeconds.toInt())
         val dayArrivalTo = dayStartTraveling.plusDays(timeTraveling.toLong())
         val dayToSendHome = dayEndTraveling.minusDays(timeTraveling.toLong())
-        val ticketsFrom = getResponse(idTo, idFrom, dayToSendHome).filter { isPlazcard(it) }
+        val ticketsFrom = getResponse(idTo, idFrom, dayToSendHome).filter { areTypesEquals(it, typeofTrainCar) }
 
         if (isTicketValid(ticketsFrom)) {
 
@@ -47,14 +53,14 @@ class RzdApi(private val httpService: HttpService) : IRzdApi1 {
                 )
             }
         }
-        return listOf<Ticket>()
+        return listOf()
     }
 
     private fun createListTickets(ticketsTo: List<Trip>, ticketsFrom: List<Trip>, cityTo: City, cityFrom: City,
                                   priceTravelFrom: Double, priceTravelTo : Double,
                                   dayEndTraveling: LocalDate, dayStartTraveling: LocalDate, idFrom: Int, idTo: Int,
     dayArrivalTo: LocalDate, dayToSendHome: LocalDate): List<Ticket> {
-        return mutableListOf<Ticket>(
+        return mutableListOf(
         (
             Ticket(cityFrom, cityTo, priceTravelTo + priceTravelFrom,  TravellingTime(
                 DateSegment(dayStartTraveling, dayArrivalTo),

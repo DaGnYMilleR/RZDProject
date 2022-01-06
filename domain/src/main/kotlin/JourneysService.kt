@@ -8,6 +8,7 @@ import models.Journey
 import models.TravellingTime
 import rzdService.IRzdService
 import rzdService.RzdParams
+import rzdService.TrainCarType
 import kotlin.streams.toList
 
 class JourneysService(
@@ -23,7 +24,8 @@ class JourneysService(
             .minusElement(currentCity)
 
         val journeys = availableCities.parallelStream()
-            .map { createJourney(currentCity, it, parameters.journeyDuration, parameters.trainsBudget, parameters.hotelsBudget) }
+            .map { createJourney(currentCity, it, parameters.journeyDuration,
+                parameters.trainsBudget, parameters.hotelsBudget, parameters.typeOfTrainCar) }
             .toList()
 
         return compositeFilter.filter(journeys, parameters)
@@ -33,8 +35,10 @@ class JourneysService(
                               cityTo: City,
                               journeyDuration: DateSegment,
                               trainsBudget: Double,
-                              hotelsBudget: Double?): Journey  {
-        val tickets = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration, trainsBudget))
+                              hotelsBudget: Double?,
+                              typeofTrainCar: TrainCarType
+    ): Journey  {
+        val tickets = rzdService.getTicket(RzdParams(cityFrom, cityTo, journeyDuration, trainsBudget, typeofTrainCar))
         if (tickets.isEmpty())
             return Journey(cityTo, tickets, listOf())
         val beingInCityTime = getTimeOfStayInCity(tickets.first().travellingTime)
