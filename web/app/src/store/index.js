@@ -14,10 +14,12 @@ const store = new Vuex.Store({
     selectedJourney: JourneyResponse.Null,
     journeyFilters: {
       fromCityName: undefined,
-      price: undefined,
-      startDate: undefined,
-      endDate: undefined,
+      trainsBudget: undefined,
+      dateFrom: undefined,
+      dateTo: undefined,
       tags: [],
+      hotelsBudget: null,
+      typeOfTrainCar: 0,
     },
     suggestions: [],
   },
@@ -28,7 +30,6 @@ const store = new Vuex.Store({
 
     [SET_JOURNEY_FILTERS](state, filters) {
       state.journeyFilters = filters;
-      console.log(state.journeyFilters);
     },
 
     [SET_SUGGESTIONS](state, suggestions) {

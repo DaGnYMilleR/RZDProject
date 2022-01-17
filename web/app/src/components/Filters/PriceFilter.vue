@@ -1,6 +1,6 @@
 <template>
   <v-content class="pa-0">
-    <v-card-title>Бюджет</v-card-title>
+    <v-card-title>{{ title }}</v-card-title>
     <vuetify-money
       v-model="priceInput"
       value-when-is-empty="0"
@@ -25,6 +25,10 @@ export default {
       type: Number,
       default: 0,
     },
+    title: {
+      type: String,
+      default: "",
+    },
   },
   data: () => ({
     min: 0,
@@ -46,12 +50,6 @@ export default {
       get() {
         return this.price;
       },
-    },
-  },
-  methods: {
-    getFormattedPrice() {
-      const formatter = new Intl.NumberFormat("ru-RU");
-      return formatter.format(this.price);
     },
   },
 };

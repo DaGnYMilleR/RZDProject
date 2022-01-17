@@ -39,16 +39,18 @@
             ></v-app-bar-nav-icon>
             <v-navigation-drawer
               v-model="doShowSettings"
-              absolute
+              fixed
               bottom
               right
               temporary
+              height-app
               style="width: 20%"
             >
               <JourneyFilters
                 ref="settings"
                 :tags-collection="tags"
                 :cities="cities"
+                :train-types="trainTypes"
                 @onrequest="requestApplyFilters"
               />
             </v-navigation-drawer>
@@ -65,6 +67,7 @@ import JourneySuggestions from "../components/JourneySuggestions";
 import { JourneyResponse } from "../models/response/JourneyResponse";
 import store from "../store";
 import { SET_JOURNEY, SET_SUGGESTIONS } from "../store/mutations-types";
+import { TrainCarType } from "../utils/TrainCarType";
 
 export default {
   name: "SearchJourneys",
@@ -171,6 +174,11 @@ export default {
         { id: 36, name: "Хабаровск" },
         { id: 37, name: "Ярославль" },
       ],
+      trainTypes: [
+        { name: "Плацкарт", type: TrainCarType.Plazcard },
+        { name: "Купе", type: TrainCarType.Coupe },
+        { name: "Люкс", type: TrainCarType.Lux },
+      ],
       cachedRequest: null,
       doShowSettings: false,
       isLoading: false,
@@ -186,6 +194,7 @@ export default {
     async requestApplyFilters(requestDto) {
       this.cachedRequest = requestDto;
       let suggestions = [];
+      console.log(requestDto);
       try {
         this.doShowSettings = false;
         this.isLoading = true;

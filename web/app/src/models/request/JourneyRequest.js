@@ -1,10 +1,12 @@
 export class JourneyRequest {
   constructor() {
     this.cityName = null;
-    this.budget = 0;
+    this.trainsBudget = 0;
     this.dateFrom = null;
     this.dateTo = null;
+    this.hotelsBudget = null;
     this.tags = new Set();
+    this.typeOfTrainCar = 0;
   }
 
   toJson() {

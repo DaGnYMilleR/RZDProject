@@ -6,7 +6,36 @@
       :cities="cities"
       label="Город отправления"
     ></CitiesFilter>
-    <PriceFilter v-model="budget"></PriceFilter>
+    <PriceFilter v-model="budget" title="Бюджет на билеты"></PriceFilter>
+    <v-content class="pa-0">
+      <v-card-title>Тип вагона</v-card-title>
+      <v-select
+        v-model="trainName"
+        :items="trainTypes.map((c) => c.name)"
+        label="Тип вагона"
+        placeholder="Выберите тип вагона"
+        dense
+        outlined
+        clearable
+        color="blue"
+        item-color="blue"
+        class="ml-3 mr-3"
+      ></v-select>
+    </v-content>
+    <v-content class="pa-0" style="margin-left: 1%">
+      <v-checkbox
+        v-model="useHotels"
+        label="Найти отели"
+        value="Найти отели"
+      ></v-checkbox>
+    </v-content>
+    <transition name="fade">
+      <PriceFilter
+        v-if="useHotels"
+        v-model="hotelsBudget"
+        title="Бюджет на отели"
+      ></PriceFilter>
+    </transition>
     <DateFilter
       v-model="dateFrom"
       label="Дата отправления"
@@ -45,6 +74,7 @@
 import { JourneyRequest } from "../models/request/JourneyRequest";
 import store from "../store";
 import { SET_JOURNEY_FILTERS } from "../store/mutations-types";
+import { TrainCarType } from "../utils/TrainCarType";
 import CitiesFilter from "./Filters/CitiesFilter";
 import DateFilter from "./Filters/DateFilter";
 import PriceFilter from "./Filters/PriceFilter";
@@ -62,20 +92,41 @@ export default {
       type: Array,
       default: () => [],
     },
+    trainTypes: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
       cityName: undefined,
       budget: undefined,
+      hotelsBudget: undefined,
       dateFrom: undefined,
       dateTo: undefined,
       tags: [],
+      trainType: TrainCarType.Plazcard,
 
+      useHotels: false,
       timeout: 3000,
       error: "",
       hasError: false,
       store,
     };
+  },
+  computed: {
+    trainName: {
+      get() {
+        return (
+          this.trainTypes.find((x) => x.type === this.trainType)?.name ??
+          "Не выбрано"
+        );
+      },
+      set(value) {
+        this.trainType =
+          this.trainTypes.find((x) => x.name === value)?.type ?? -1;
+      },
+    },
   },
   methods: {
     applyFilters() {
@@ -93,15 +144,28 @@ export default {
         this.setError("Дата отправления должна быть раньше даты возвращения");
       } else if (Date.now() > Date.parse(this.dateFrom)) {
         this.setError("Дата отправления должна быть не раньше текущей даты");
+      } else if (
+        this.useHotels &&
+        (isNaN(+this.hotelsBudget) || +this.hotelsBudget <= 0)
+      ) {
+        this.setError("Вы неправильно указали бюджет на отели");
+      } else if (this.trainType === undefined) {
+        this.setError("Вы не указали тип вагона");
       } else {
         const request = new JourneyRequest();
         request.cityName = this.cityName;
-        request.budget = this.budget;
+        request.trainsBudget = this.budget;
         request.dateFrom = this.dateFrom;
         request.dateTo = this.dateTo;
         request.tags = this.tags;
-        this.$store.commit(SET_JOURNEY_FILTERS, request);
-        this.$emit("onrequest", request);
+        request.hotelsBudget = this.useHotels ? this.hotelsBudget : null;
+        request.typeOfTrainCar = this.trainType;
+        if (request.typeOfTrainCar === undefined) {
+          this.setError("Вы указали неправильный тип вагона");
+        } else {
+          this.$store.commit(SET_JOURNEY_FILTERS, request);
+          this.$emit("onrequest", request);
+        }
       }
     },
 
@@ -132,6 +196,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../assets/css/Transition.css";
+
 .wrapper {
   .header {
     padding: 0.3vmax;
